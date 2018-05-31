@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/laundryq"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/contdesc_logo_laundryq" />
+
+    <LinearLayout
+        android:id="@+id/lyt_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:padding="16dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorWhite"
+            android:theme="@style/CustomTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:hint="@string/hint_email_nomor_telepon"
+                android:drawableLeft="@drawable/baseline_email_white_36"
+                android:drawableStart="@drawable/baseline_email_white_36"
+                android:drawablePadding="8dp"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorWhite"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorWhite"
+            android:theme="@style/CustomTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_passwod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:hint="@string/hint_password"
+                android:drawableLeft="@drawable/baseline_lock_white_36"
+                android:drawableStart="@drawable/baseline_lock_white_36"
+                android:drawablePadding="8dp"
+                android:singleLine="true"
+                android:inputType="textPassword"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_lupa_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_lupa_password"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="end"
+            android:padding="8dp"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/btn_white_effect"
+            android:text="@string/btn_login_txt"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_no_account"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_daftar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_daftar"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
