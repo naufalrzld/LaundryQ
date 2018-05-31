@@ -8,9 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomTextInputLayout" parent="TextAppearance.AppCompat">
-        <item name="colorControlNormal">@color/colorBlack</item>
+    <style name="CustomTextInputLayout" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
         <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="textColorError">@color/colorYellow</item>
     </style>
 
 </resources>

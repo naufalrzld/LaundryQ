@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.motion.laundryq.utils.SharedPreference;
+
 public class SplashscreenActivity extends AppCompatActivity {
 
     @Override
@@ -17,7 +19,16 @@ public class SplashscreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashscreenActivity.this, LoginActivity.class);
+                SharedPreference sharedPreference = new SharedPreference(SplashscreenActivity.this);
+                boolean isLogin = sharedPreference.isLoggedIn();
+                Intent intent;
+
+                if (isLogin) {
+                    intent = new Intent(SplashscreenActivity.this, MainActivity.class);
+                } else {
+                    intent = new Intent(SplashscreenActivity.this, LoginActivity.class);
+                }
+
                 startActivity(intent);
 
                 finish();
