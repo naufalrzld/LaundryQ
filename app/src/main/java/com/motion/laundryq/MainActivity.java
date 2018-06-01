@@ -1,14 +1,17 @@
 package com.motion.laundryq;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-import com.motion.laundryq.model.UserModel;
-import com.motion.laundryq.utils.SharedPreference;
+import com.motion.laundryq.fragment.HomeFragment;
+import com.motion.laundryq.fragment.OrderFragment;
+import com.motion.laundryq.fragment.ProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bottomNavView)
     BottomNavigationView bottomNavView;
 
-    private SharedPreference sharedPreference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +30,43 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        sharedPreference = new SharedPreference(this);
-        if (sharedPreference.checkIfDataExists("profile")) {
-            UserModel userModel = sharedPreference.getObjectData("profile", UserModel.class);
-        }
+        bottomNavView.setOnNavigationItemSelectedListener(mOnNavItemSelectedListener);
+
+        loadFragment(new HomeFragment());
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    if (!(currentFragment instanceof HomeFragment)) {
+                        fragment = new HomeFragment();
+                        loadFragment(fragment);
+                        return true;
+                    }
+                    break;
+                case R.id.nav_order:
+                    if (!(currentFragment instanceof OrderFragment)) {
+                        fragment = new OrderFragment();
+                        loadFragment(fragment);
+                        return true;
+                    }
+                    break;
+                case R.id.nav_profile:
+                    if (!(currentFragment instanceof ProfileFragment)) {
+                        fragment = new ProfileFragment();
+                        loadFragment(fragment);
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+    };
 
     private void loadFragment(Fragment fragment) {
         // load fragment

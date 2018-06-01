@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray_1"
+    tools:context=".fragment.ProfileFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/tv_nama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_image"
+                    tools:text="Nama"
+                    android:textColor="@color/colorWhite"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"/>
+
+                <ImageView
+                    android:id="@+id/img_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_edit_white_24"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_placeholder_black_36" />
+
+                    <TextView
+                        android:id="@+id/tv_alamat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Jl. Telekomunikasi No. 1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginTop="1dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_phone_black_36" />
+
+                    <TextView
+                        android:id="@+id/tv_noTlp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="087722390424"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginTop="1dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_email_black_36" />
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="naufalrzld@gmail.com"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_help"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorWhite"
+                    android:layout_marginTop="1dp">
+
+                    <TextView
+                        android:id="@+id/tv_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_logout"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
