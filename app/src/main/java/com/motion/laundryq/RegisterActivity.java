@@ -52,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.btn_login)
     Button btnLogin;
 
+    public static final String USER_CUSTOMER = "customer";
+
     private FirebaseAuth auth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -174,6 +176,6 @@ public class RegisterActivity extends AppCompatActivity {
         String userID = split[0];
         UserModel userModel = new UserModel(nama, noTlp, email);
 
-        databaseReference.child(userID).setValue(userModel);
+        databaseReference.child(USER_CUSTOMER).child(userID).setValue(userModel);
     }
 }

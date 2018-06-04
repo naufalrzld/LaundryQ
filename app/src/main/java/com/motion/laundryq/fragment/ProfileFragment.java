@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.motion.laundryq.LoginActivity;
 import com.motion.laundryq.R;
 import com.motion.laundryq.model.UserModel;
@@ -72,6 +73,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
+        FirebaseAuth.getInstance().signOut();
         sharedPreference.clearAllData();
         startActivity(new Intent(getContext(), LoginActivity.class));
         getActivity().finish();

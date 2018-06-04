@@ -29,6 +29,8 @@ import com.motion.laundryq.utils.SharedPreference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.RegisterActivity.USER_CUSTOMER;
+
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.til_email)
     TextInputLayout tilEmail;
@@ -64,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference("users").child(USER_CUSTOMER);
 
         sharedPreference = new SharedPreference(this);
 
@@ -135,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getDataUser(final String userID) {
-        databaseReference = firebaseDatabase.getReference("users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
