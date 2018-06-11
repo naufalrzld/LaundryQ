@@ -5,7 +5,7 @@ public class UserModel {
     private String nama;
     private String noTlp;
     private String email;
-    private String alamat;
+    private AddressModel address;
 
     public UserModel() {
     }
@@ -14,6 +14,10 @@ public class UserModel {
         this.nama = nama;
         this.noTlp = noTlp;
         this.email = email;
+    }
+
+    public UserModel(AddressModel address) {
+        this.address = address;
     }
 
     public String getUserID() {
@@ -48,11 +52,11 @@ public class UserModel {
         this.email = email;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public AddressModel getAddress() {
+        return address;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setAddress(AddressModel address) {
+        this.address = address;
     }
 }

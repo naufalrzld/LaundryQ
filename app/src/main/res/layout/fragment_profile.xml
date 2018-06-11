@@ -55,6 +55,7 @@
                 android:layout_marginTop="8dp">
 
                 <LinearLayout
+                    android:id="@+id/lyt_alamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -67,7 +68,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_placeholder_black_36" />
+                        android:src="@drawable/baseline_placeholder_black_36"
+                        android:layout_gravity="center"/>
 
                     <TextView
                         android:id="@+id/tv_alamat"
@@ -83,6 +85,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lyt_no_tlp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

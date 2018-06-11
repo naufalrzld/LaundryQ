@@ -29,7 +29,8 @@ import com.motion.laundryq.utils.SharedPreference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.RegisterActivity.USER_CUSTOMER;
+import static com.motion.laundryq.utils.AppConstant.USER_CUSTOMER;
+import static com.motion.laundryq.utils.AppConstant.USER_PROFILE;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.til_email)
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 assert userModel != null;
                 userModel.setUserID(userID);
 
-                sharedPreference.storeData("profile", userModel);
+                sharedPreference.storeData(USER_PROFILE, userModel);
                 sharedPreference.setLogin(true);
 
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

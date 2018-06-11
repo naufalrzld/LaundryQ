@@ -1,7 +1,6 @@
 package com.motion.laundryq;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +21,8 @@ import com.motion.laundryq.model.UserModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.motion.laundryq.utils.AppConstant.USER_CUSTOMER;
 
 public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.til_nama)
@@ -51,8 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnDaftar;
     @BindView(R.id.btn_login)
     Button btnLogin;
-
-    public static final String USER_CUSTOMER = "customer";
 
     private FirebaseAuth auth;
     private FirebaseDatabase firebaseDatabase;
