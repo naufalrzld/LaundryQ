@@ -38,14 +38,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"/>
 
-                <ImageView
-                    android:id="@+id/img_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_edit_white_24"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
             </RelativeLayout>
 
             <LinearLayout
@@ -155,7 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/colorWhite">
+                    android:background="@drawable/linear_layout_clicked_effect"
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -164,30 +157,31 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:layout_gravity="center"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lyt_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/colorWhite"
-                    android:layout_marginTop="1dp">
+                    android:background="@drawable/linear_layout_clicked_effect"
+                    android:layout_marginTop="1dp"
+                    android:padding="8dp">
 
                     <TextView
-                        android:id="@+id/tv_logout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/txt_logout"
                         android:textColor="@color/colorOrange"
                         android:textSize="16sp"
                         android:layout_gravity="center"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"/>
 

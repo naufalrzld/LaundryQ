@@ -52,9 +52,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.utils.AppConstant.USER_ADDRESS;
-import static com.motion.laundryq.utils.AppConstant.USER_CUSTOMER;
-import static com.motion.laundryq.utils.AppConstant.USER_PROFILE;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS_DETAIL;
+import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_EDIT;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_ADDRESS;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
+import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     @BindView(R.id.toolbar)
@@ -106,10 +110,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getSupportActionBar().setTitle(R.string.activity_map_title);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users").child(USER_CUSTOMER);
+        databaseReference = firebaseDatabase.getReference(FDB_KEY_USER).child(FDB_KEY_USER_CUSTOMER);
+
         sharedPreference = new SharedPreference(this);
-        userModel = sharedPreference.getObjectData("profile", UserModel.class);
+        userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
         final String userID = userModel.getUserID();
+
+        Intent dataIntent = getIntent();
+        if (dataIntent.getBooleanExtra(KEY_INTENT_EDIT, false)) {
+            etAlamat.setText(dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS));
+            etAlamatDetail.setText(dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS_DETAIL));
+        }
 
         getLocationPermission();
 
@@ -261,8 +272,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapLaoding.show();
         AddressModel addressModel = new AddressModel(alamat, detailAlamat, latitude, longitude);
 
-        databaseReference.child(userID).child(USER_ADDRESS).setValue(addressModel);
-        databaseReference.child(userID).child(USER_ADDRESS).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(userID).child(FDB_KEY_USER_ADDRESS).setValue(addressModel);
+        databaseReference.child(userID).child(FDB_KEY_USER_ADDRESS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mapLaoding.dismiss();
@@ -271,8 +282,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (result != null) {
                     userModel.setAddress(result);
 
-                    Log.d(TAG, "onDataChange: Address: " + result.getAlamat());
-                    sharedPreference.storeData(USER_PROFILE, userModel);
+                    sharedPreference.storeData(KEY_PROFILE, userModel);
 
                     Toast.makeText(getApplicationContext(), "Lokasi Tersimpan", Toast.LENGTH_SHORT).show();
                     finish();

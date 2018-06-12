@@ -22,7 +22,8 @@ import com.motion.laundryq.model.UserModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.utils.AppConstant.USER_CUSTOMER;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
 
 public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.til_nama)
@@ -69,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference(FDB_KEY_USER);
 
 
 
@@ -174,6 +175,6 @@ public class RegisterActivity extends AppCompatActivity {
         String userID = split[0];
         UserModel userModel = new UserModel(nama, noTlp, email);
 
-        databaseReference.child(USER_CUSTOMER).child(userID).setValue(userModel);
+        databaseReference.child(FDB_KEY_USER_CUSTOMER).child(userID).setValue(userModel);
     }
 }

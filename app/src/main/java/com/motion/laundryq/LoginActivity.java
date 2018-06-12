@@ -29,8 +29,9 @@ import com.motion.laundryq.utils.SharedPreference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.utils.AppConstant.USER_CUSTOMER;
-import static com.motion.laundryq.utils.AppConstant.USER_PROFILE;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
+import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.til_email)
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users").child(USER_CUSTOMER);
+        databaseReference = firebaseDatabase.getReference(FDB_KEY_USER).child(FDB_KEY_USER_CUSTOMER);
 
         sharedPreference = new SharedPreference(this);
 
@@ -146,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                 assert userModel != null;
                 userModel.setUserID(userID);
 
-                sharedPreference.storeData(USER_PROFILE, userModel);
+                sharedPreference.storeData(KEY_PROFILE, userModel);
                 sharedPreference.setLogin(true);
 
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

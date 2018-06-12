@@ -24,7 +24,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MapActivity"/>
+        <activity android:name=".MapActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -36,6 +36,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".PhoneNumberActivity"></activity>
     </application>
 
 </manifest>

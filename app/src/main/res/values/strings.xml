@@ -25,4 +25,7 @@
     <string name="btn_simpan_title">Simpan</string>
     <string name="activity_map_title">Alamat Rumah</string>
     <string name="menu_title_search_location">Search Location</string>
+    <string name="menu_title_edit">Edit</string>
+    <string name="txt_change_phone_number">Ubah nomor telepon</string>
+    <string name="activity_phone_number_title">Ubah Nomor Telepon</string>
 </resources>
