@@ -108,6 +108,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.activity_map_title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference(FDB_KEY_USER).child(FDB_KEY_USER_CUSTOMER);
@@ -307,6 +308,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.menu_search:
                 try {
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)

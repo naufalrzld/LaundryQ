@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.motion.laundryq.EditProfileActivity;
 import com.motion.laundryq.LoginActivity;
 import com.motion.laundryq.MapActivity;
 import com.motion.laundryq.PhoneNumberActivity;
@@ -170,6 +171,7 @@ public class ProfileFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit:
+                startActivity(new Intent(getContext(), EditProfileActivity.class));
                 break;
         }
 

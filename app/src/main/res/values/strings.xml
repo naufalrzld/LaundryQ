@@ -28,4 +28,8 @@
     <string name="menu_title_edit">Edit</string>
     <string name="txt_change_phone_number">Ubah nomor telepon</string>
     <string name="activity_phone_number_title">Ubah Nomor Telepon</string>
+    <string name="txt_edit">EDIT</string>
+    <string name="txt_edit_nama">Edit Nama</string>
+    <string name="txt_simpan">Simpan</string>
+    <string name="activity_edit_profile_title">Edit Profile</string>
 </resources>

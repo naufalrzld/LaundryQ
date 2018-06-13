@@ -4,7 +4,7 @@ public class AppConstant {
     public static final String FDB_KEY_USER = "users";
     public static final String FDB_KEY_USER_CUSTOMER = "customer";
     public static final String FDB_KEY_USER_ADDRESS = "address";
-    public static final String FBD_KEY_EMAIL = "email";
+    public static final String FDB_KEY_EMAIL = "email";
     public static final String FDB_KEY_NAME = "nama";
     public static final String FDB_KEY_NO_TLP = "noTlp";
 
