@@ -32,4 +32,7 @@
     <string name="txt_edit_nama">Edit Nama</string>
     <string name="txt_simpan">Simpan</string>
     <string name="activity_edit_profile_title">Edit Profile</string>
+    <string name="txt_no_address">Alamat belum diatur</string>
+    <string name="txt_change_password">Ubah password</string>
+    <string name="activity_change_password_title">Ubah Password</string>
 </resources>

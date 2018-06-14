@@ -37,7 +37,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".PhoneNumberActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>
