@@ -2,6 +2,7 @@ package com.motion.laundryq.model;
 
 public class UserModel {
     private String userID;
+    private String password;
     private String nama;
     private String noTlp;
     private String email;
@@ -26,6 +27,14 @@ public class UserModel {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNama() {

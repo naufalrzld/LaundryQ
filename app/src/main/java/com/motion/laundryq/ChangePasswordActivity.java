@@ -16,17 +16,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.motion.laundryq.model.UserModel;
+import com.motion.laundryq.utils.SharedPreference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
+
 public class ChangePasswordActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.til_last_password)
+    TextInputLayout tilLastPassword;
     @BindView(R.id.til_password)
     TextInputLayout tilPassword;
     @BindView(R.id.til_password_conf)
     TextInputLayout tilPasswordConf;
+    @BindView(R.id.et_last_passwod)
+    TextInputEditText etLastPassword;
     @BindView(R.id.et_passwod)
     TextInputEditText etPassword;
     @BindView(R.id.et_passwod_conf)
@@ -35,6 +43,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     Button btnSimpan;
 
     private FirebaseUser firebaseUser;
+
+    private SharedPreference sharedPreference;
+    private UserModel userModel;
 
     private ProgressDialog changePasswordLoading;
 
@@ -54,27 +65,42 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        sharedPreference = new SharedPreference(this);
+        userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
+        final String lastPassword = userModel.getPassword();
+
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String password = etPassword.getText().toString();
+                String password = etLastPassword.getText().toString();
+                String newPassword = etPassword.getText().toString();
                 String passwordConf = etPasswordConf.getText().toString();
 
-                if (isInputValid(password, passwordConf)) {
-                    changePassword(password);
+                if (isInputValid(password, newPassword, passwordConf)) {
+                    if (isLastPasswordCorrect(lastPassword, password)) {
+                        changePassword(newPassword);
+                    } else {
+                        Toast.makeText(ChangePasswordActivity.this, "Password lama salah!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
     }
 
-    private boolean isInputValid(String password, String passwordConf) {
+    private boolean isInputValid(String lastPassword, String newPassword, String passwordConf) {
+        tilLastPassword.setErrorEnabled(false);
         tilPassword.setErrorEnabled(false);
         tilPasswordConf.setErrorEnabled(false);
 
-        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordConf)) {
-            if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(lastPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(passwordConf)) {
+            if (TextUtils.isEmpty(lastPassword)) {
+                tilLastPassword.setErrorEnabled(true);
+                tilLastPassword.setError("Masukkan kata sandi lama anda!");
+            }
+
+            if (TextUtils.isEmpty(newPassword)) {
                 tilPassword.setErrorEnabled(true);
-                tilPassword.setError("Masukkan kata sandi anda!");
+                tilPassword.setError("Masukkan kata sandi baru anda!");
             }
 
             if (TextUtils.isEmpty(passwordConf)) {
@@ -84,14 +110,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             return false;
         } else {
-            if (password.length() < 6) {
+            if (lastPassword.length() < 6) {
+                tilLastPassword.setErrorEnabled(true);
+                tilLastPassword.setError("Kata sandi minimal 6 karakter");
+
+                return false;
+            }
+
+            if (newPassword.length() < 6) {
                 tilPassword.setErrorEnabled(true);
                 tilPassword.setError("Kata sandi minimal 6 karakter");
 
                 return false;
             }
 
-            if (!password.equals(passwordConf)) {
+            if (!newPassword.equals(passwordConf)) {
                 tilPasswordConf.setErrorEnabled(true);
                 tilPasswordConf.setError("Konfirmasi kata sandi tidak cocok!");
 
@@ -100,6 +133,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             return true;
         }
+    }
+
+    private boolean isLastPasswordCorrect(String lastPassword, String password) {
+        if (!lastPassword.equals(password)) {
+            return false;
+        }
+
+        return true;
     }
 
     private void changePassword(String password) {

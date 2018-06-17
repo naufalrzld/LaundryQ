@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loginUser(final String email, String password) {
+    private void loginUser(final String email, final String password) {
         loginLoading.show();
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String split[] = email.split("@");
                             String userID = split[0];
-                            getDataUser(userID);
+                            getDataUser(userID, password);
                         } else {
                             loginLoading.dismiss();
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void getDataUser(final String userID) {
+    private void getDataUser(final String userID, final String password) {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 UserModel userModel = dataSnapshot.child(userID).getValue(UserModel.class);
                 assert userModel != null;
                 userModel.setUserID(userID);
+                userModel.setPassword(password);
 
                 sharedPreference.storeData(KEY_PROFILE, userModel);
                 sharedPreference.setLogin(true);
