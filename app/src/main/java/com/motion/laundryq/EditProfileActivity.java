@@ -26,6 +26,7 @@ import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS_DETAIL;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_NAME;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_NO_TLP;
 import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_EDIT;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
@@ -35,18 +36,10 @@ public class EditProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.profile_image)
     ImageView profileImage;
-    @BindView(R.id.lyt_display_name)
-    LinearLayout lytDisplayName;
-    @BindView(R.id.lyt_edit_name)
-    LinearLayout lytEditName;
     @BindView(R.id.tv_nama)
     TextView tvNama;
     @BindView(R.id.tv_change_name)
     TextView tvChangeName;
-    @BindView(R.id.et_nama)
-    EditText etNama;
-    @BindView(R.id.tv_save)
-    TextView tvSave;
     @BindView(R.id.tv_address)
     TextView tvAddress;
     @BindView(R.id.btn_edit_address)
@@ -78,6 +71,13 @@ public class EditProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreference = new SharedPreference(this);
+
+        tvChangeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(EditProfileActivity.this, ChangeNameActivity.class));
+            }
+        });
 
         btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override

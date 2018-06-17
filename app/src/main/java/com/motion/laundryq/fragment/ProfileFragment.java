@@ -157,6 +157,7 @@ public class ProfileFragment extends Fragment {
             }
         }
 
+        tvNama.setText(userModel.getNama());
         tvAlamat.setText(address);
         tvNoTlp.setText(userModel.getNoTlp());
     }

@@ -10,6 +10,7 @@ public class AppConstant {
 
     public static final String KEY_PROFILE = "profile";
     public static final String KEY_INTENT_EDIT = "edit";
+    public static final String KEY_DATA_INTENT_NAME = "name";
     public static final String KEY_DATA_INTENT_ADDRESS = "address";
     public static final String KEY_DATA_INTENT_ADDRESS_DETAIL = "detailAddress";
     public static final String KEY_DATA_INTENT_NO_TLP = "detailAddress";

@@ -38,7 +38,8 @@
 
         <activity android:name=".PhoneNumberActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".ChangeNameActivity"></activity>
     </application>
 
 </manifest>
