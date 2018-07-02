@@ -54,7 +54,7 @@ import butterknife.ButterKnife;
 
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS_DETAIL;
-import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_EDIT;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_EDIT;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_ADDRESS;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
@@ -118,9 +118,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final String userID = userModel.getUserID();
 
         Intent dataIntent = getIntent();
-        if (dataIntent.getBooleanExtra(KEY_INTENT_EDIT, false)) {
-            etAlamat.setText(dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS));
-            etAlamatDetail.setText(dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS_DETAIL));
+        if (dataIntent.getBooleanExtra(KEY_DATA_INTENT_EDIT, false)) {
+            String address = dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS);
+            String addressDetail = dataIntent.getStringExtra(KEY_DATA_INTENT_ADDRESS_DETAIL);
+            etAlamat.setText(address);
+            etAlamatDetail.setText(addressDetail);
+
+            etAlamat.setSelection(address.length());
+            etAlamatDetail.setSelection(addressDetail.length());
         }
 
         getLocationPermission();

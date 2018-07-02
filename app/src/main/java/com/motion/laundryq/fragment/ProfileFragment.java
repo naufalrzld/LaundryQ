@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.motion.laundryq.EditProfileActivity;
 import com.motion.laundryq.LoginActivity;
@@ -32,7 +34,7 @@ import butterknife.ButterKnife;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS_DETAIL;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_NO_TLP;
-import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_EDIT;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_EDIT;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 /**
@@ -92,37 +94,44 @@ public class ProfileFragment extends Fragment {
                 }
             }
 
+            if (!TextUtils.isEmpty(userModel.getUrlPhoto())) {
+                Glide.with(this)
+                        .load(userModel.getUrlPhoto())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imgProfile);
+            }
+
             tvNama.setText(userModel.getNama());
             tvAlamat.setText(address);
             tvNoTlp.setText(userModel.getNoTlp());
             tvEmail.setText(userModel.getEmail());
         }
 
-        lytAlamat.setOnClickListener(new View.OnClickListener() {
+        /*lytAlamat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), MapActivity.class);
                 if (!TextUtils.isEmpty(addressModel.getAlamat())) {
-                    intent.putExtra(KEY_INTENT_EDIT, true);
+                    intent.putExtra(KEY_DATA_INTENT_EDIT, true);
                     intent.putExtra(KEY_DATA_INTENT_ADDRESS, addressModel.getAlamat());
                     intent.putExtra(KEY_DATA_INTENT_ADDRESS_DETAIL, addressModel.getAlamatDetail());
                 }
                 startActivity(intent);
             }
-        });
+        });*/
 
-        lytNoTlp.setOnClickListener(new View.OnClickListener() {
+        /*lytNoTlp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), PhoneNumberActivity.class);
                 if (!TextUtils.isEmpty(userModel.getNoTlp())) {
-                    intent.putExtra(KEY_INTENT_EDIT, true);
+                    intent.putExtra(KEY_DATA_INTENT_EDIT, true);
                     intent.putExtra(KEY_DATA_INTENT_NO_TLP, userModel.getNoTlp());
                 }
 
                 startActivity(intent);
             }
-        });
+        });*/
 
         lytLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +164,13 @@ public class ProfileFragment extends Fragment {
             } else {
                 address = addressModel.getAlamat();
             }
+        }
+
+        if (!TextUtils.isEmpty(userModel.getUrlPhoto())) {
+            Glide.with(this)
+                    .load(userModel.getUrlPhoto())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imgProfile);
         }
 
         tvNama.setText(userModel.getNama());

@@ -6,6 +6,7 @@ public class UserModel {
     private String nama;
     private String noTlp;
     private String email;
+    private String urlPhoto;
     private AddressModel address;
 
     public UserModel() {
@@ -59,6 +60,14 @@ public class UserModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUrlPhoto() {
+        return urlPhoto;
+    }
+
+    public void setUrlPhoto(String urlPhoto) {
+        this.urlPhoto = urlPhoto;
     }
 
     public AddressModel getAddress() {

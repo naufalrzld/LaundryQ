@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -39,7 +41,8 @@
         <activity android:name=".PhoneNumberActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".ChangeNameActivity"></activity>
+        <activity android:name=".ChangeNameActivity" />
+        <activity android:name=".EditEmailActivity"></activity>
     </application>
 
 </manifest>

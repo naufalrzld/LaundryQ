@@ -5,7 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.motion.laundryq.model.UserModel;
 import com.motion.laundryq.utils.SharedPreference;
+
+import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class SplashscreenActivity extends AppCompatActivity {
 
@@ -24,6 +31,12 @@ public class SplashscreenActivity extends AppCompatActivity {
                 Intent intent;
 
                 if (isLogin) {
+                    UserModel userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
+
+                    AuthCredential credential = EmailAuthProvider.getCredential(userModel.getEmail(), userModel.getPassword());
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    user.reauthenticate(credential);
+
                     intent = new Intent(SplashscreenActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(SplashscreenActivity.this, LoginActivity.class);

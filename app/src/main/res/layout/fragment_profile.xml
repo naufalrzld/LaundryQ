@@ -25,7 +25,8 @@
                     android:id="@+id/profile_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/user"/>
 
                 <TextView
                     android:id="@+id/tv_nama"

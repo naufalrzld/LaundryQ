@@ -37,4 +37,6 @@
     <string name="activity_change_password_title">Ubah Password</string>
     <string name="activity_change_name_title">Ubah Nama</string>
     <string name="hint_last_password">Kata sandi lama</string>
+    <string name="txt_change_email">Ubah alamat email</string>
+    <string name="activity_change_email_title">Ubah Email</string>
 </resources>

@@ -29,7 +29,7 @@ import static com.motion.laundryq.utils.AppConstant.FDB_KEY_NO_TLP;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USER_CUSTOMER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_NO_TLP;
-import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_EDIT;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_EDIT;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class PhoneNumberActivity extends AppCompatActivity {
@@ -68,8 +68,10 @@ public class PhoneNumberActivity extends AppCompatActivity {
         final String userID;
 
         Intent dataIntent = getIntent();
-        if (dataIntent.getBooleanExtra(KEY_INTENT_EDIT, false)) {
-            etNoTlp.setText(dataIntent.getStringExtra(KEY_DATA_INTENT_NO_TLP));
+        if (dataIntent.getBooleanExtra(KEY_DATA_INTENT_EDIT, false)) {
+            String phoneNumber = dataIntent.getStringExtra(KEY_DATA_INTENT_NO_TLP);
+            etNoTlp.setText(phoneNumber);
+            etNoTlp.setSelection(phoneNumber.length());
         }
 
         sharedPreference = new SharedPreference(this);
