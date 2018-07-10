@@ -10,55 +10,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
         android:baselineAligned="false"
         android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/lyt_filter"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp">
+            android:background="@drawable/linear_layout_clicked_effect"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_filter"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_filter"
-                android:textSize="16sp" />
-
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/spn_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_filter"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray_2"/>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/lyt_sort"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp">
+            android:background="@drawable/linear_layout_clicked_effect"
+            android:padding="8dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sort"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_sort"
-                android:textSize="16sp" />
-
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/spn_srot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_sort"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray_2"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe"

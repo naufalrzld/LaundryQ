@@ -16,6 +16,9 @@ public class AppConstant {
     public static final String FDB_KEY_CATEGORY_NAME = "category_name";
     public static final String FDB_KEY_CATEGORY_UNIT = "categoryUnit";
     public static final String FDB_KEY_CATEGORY_PRICE = "categoryPrice";
+    public static final String FDB_KEY_TIME_OPERATIONAL = "time_operational";
+    public static final String FDB_KEY_TIME_OPEN = "time_open";
+    public static final String FDB_KEY_TIME_CLOSE = "time_close";
 
     public static final String KEY_PROFILE = "profile";
     public static final String KEY_DATA_INTENT_EDIT = "edit";
@@ -24,5 +27,6 @@ public class AppConstant {
     public static final String KEY_DATA_INTENT_EMAIL = "email";
     public static final String KEY_DATA_INTENT_ADDRESS = "address";
     public static final String KEY_DATA_INTENT_ADDRESS_DETAIL = "detailAddress";
-    public static final String KEY_DATA_INTENT_NO_TLP = "detailAddress";
+    public static final String KEY_DATA_INTENT_NO_TLP = "no_tlp";
+    public static final String KEY_DATA_INTENT_LAUNDRY_MODEL = "laundry_model";
 }

@@ -43,4 +43,16 @@
     <string name="txt_filter">Filter</string>
     <string name="txt_sort">Urutkan</string>
     <string name="txt_like">Suka</string>
+    <string name="menu_title_pakaian">Pakaian</string>
+    <string name="menu_title_sepatu">Sepatu</string>
+    <string name="menu_title_jas">Jas</string>
+    <string name="menu_title_boneka">Boneka</string>
+    <string name="menu_title_bed_cover">Bed Cover</string>
+    <string name="menu_title_terdekat">Terdekat</string>
+    <string name="menu_title_harga_terendah">Harga Terendah</string>
+    <string name="menu_title_harga_tertinggi">Harga Tertinggi</string>
+    <string name="txt_address">Alamat</string>
+    <string name="txt_contact">Kontak</string>
+    <string name="txt_jadwal_laundry">Jadwal Laundry</string>
+    <string name="txt_book">Pesan</string>
 </resources>

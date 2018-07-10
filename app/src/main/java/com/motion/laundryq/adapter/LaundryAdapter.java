@@ -1,27 +1,31 @@
 package com.motion.laundryq.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.like.LikeButton;
+import com.google.android.gms.maps.model.LatLng;
+import com.motion.laundryq.DetailLaundryActivity;
 import com.motion.laundryq.R;
-import com.motion.laundryq.model.CategoryModel;
 import com.motion.laundryq.model.LaundryModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_MODEL;
 
 public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHolder> {
     private Context context;
@@ -47,7 +51,6 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final LaundryModel laundryModel = laundryList.get(position);
-        final List<CategoryModel> categoryList = laundryModel.getCategories();
 
         boolean isActive = laundryModel.isActive();
 
@@ -75,11 +78,9 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
             holder.cvItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for (CategoryModel cm : categoryList) {
-                        Toast.makeText(context, cm.getCategoryName()
-                                + " " + cm.getCategoryUnit() + " "
-                                + cm.getCategoryPrice(), Toast.LENGTH_SHORT).show();
-                    }
+                    Intent intent = new Intent(context, DetailLaundryActivity.class);
+                    intent.putExtra(KEY_DATA_INTENT_LAUNDRY_MODEL, laundryModel);
+                    context.startActivity(intent);
                 }
             });
         }
@@ -108,5 +109,30 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
     }
 }

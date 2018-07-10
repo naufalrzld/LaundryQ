@@ -6,11 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,12 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.LaundryAdapter;
 import com.motion.laundryq.model.CategoryModel;
 import com.motion.laundryq.model.LaundryModel;
-import com.motion.laundryq.utils.SpinnerItem;
+import com.motion.laundryq.model.TimeOperationalModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +42,18 @@ import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_UNIT;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_DELIVERY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRY;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRY_SERVICES;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_TIME_CLOSE;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_TIME_OPEN;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_TIME_OPERATIONAL;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-    @BindView(R.id.spn_filter)
-    MaterialSpinner spnFilter;
-    @BindView(R.id.spn_srot)
-    MaterialSpinner spnSort;
+    @BindView(R.id.lyt_filter)
+    LinearLayout lytFilter;
+    @BindView(R.id.lyt_sort)
+    LinearLayout lytSort;
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_list)
@@ -74,13 +80,24 @@ public class HomeFragment extends Fragment {
         dbLaundryServicesRef= FirebaseDatabase.getInstance().getReference(FDB_KEY_LAUNDRY_SERVICES);
         dbCategoryRef= FirebaseDatabase.getInstance().getReference(FDB_KEY_CATEGORY);
 
-        spnFilter.setItems(SpinnerItem.itemFilter());
-        spnSort.setItems(SpinnerItem.itemSort());
-
         adapter = new LaundryAdapter(getContext());
         rvList.setHasFixedSize(true);
         rvList.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvList.setAdapter(adapter);
+
+        lytFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilterMenu(view);
+            }
+        });
+
+        lytSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSortMenu(view);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,6 +111,72 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
+    private void showFilterMenu(View v) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_filter, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MenuFilterItemClickListener());
+        popup.show();
+    }
+
+    private void showSortMenu(View v) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_sort, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MenuSortItemClickListener());
+        popup.show();
+    }
+
+    private class MenuFilterItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MenuFilterItemClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_filter_pakaian:
+                    Toast.makeText(getContext(), "Pakaian", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_filter_sepatu:
+                    Toast.makeText(getContext(), "Sepatu", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_filter_jas:
+                    Toast.makeText(getContext(), "Jas", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_filter_boneka:
+                    Toast.makeText(getContext(), "Boneka", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_filter_bed_cover:
+                    Toast.makeText(getContext(), "Bed Cover", Toast.LENGTH_SHORT).show();
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    private class MenuSortItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MenuSortItemClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_sort_terdekat:
+                    Toast.makeText(getContext(), "Terdekat", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_sort_termurah:
+                    Toast.makeText(getContext(), "Harga Terendah", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_sort_termahal:
+                    Toast.makeText(getContext(), "Harga Tertinggi", Toast.LENGTH_SHORT).show();
+                    return true;
+            }
+            return false;
+        }
+    }
+
     private void getLaundry() {
         swipeRefreshLayout.setRefreshing(true);
         dbLaundryServicesRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -102,6 +185,7 @@ public class HomeFragment extends Fragment {
                 final List<LaundryModel> laundryList = new ArrayList<>();
                 for (final DataSnapshot ds : dataSnapshot.getChildren()) {
                     final List<CategoryModel> categoryList = new ArrayList<>();
+                    final List<TimeOperationalModel> timeList = new ArrayList<>();
                     String laundryID = ds.getKey();
 
                     final Boolean deliveryOrder = ds.child(FDB_KEY_DELIVERY_ORDER).getValue(Boolean.class);
@@ -141,8 +225,17 @@ public class HomeFragment extends Fragment {
                                 });
                             }
 
+                            for (DataSnapshot timeOperational : ds.child(FDB_KEY_TIME_OPERATIONAL).getChildren()) {
+                                String day = timeOperational.getKey();
+                                String timeOpen = timeOperational.child(FDB_KEY_TIME_OPEN).getValue(String.class);
+                                String timeClose = timeOperational.child(FDB_KEY_TIME_CLOSE).getValue(String.class);
+
+                                timeList.add(new TimeOperationalModel(day, timeOpen, timeClose));
+                            }
+
                             laundryModel.setDeliveryOder(deliveryOrder);
                             laundryModel.setCategories(categoryList);
+                            laundryModel.setTimeOperational(timeList);
 
                             laundryList.add(laundryModel);
 
@@ -163,75 +256,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    /*private void getLaundry() {
-        swipeRefreshLayout.setRefreshing(true);
-        dbLaundryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                swipeRefreshLayout.setRefreshing(false);
-                List<LaundryModel> laundryList = new ArrayList<>();
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    final LaundryModel laundryModel = data.getValue(LaundryModel.class);
-
-                    assert laundryModel != null;
-                    dbLaundryServicesRef.child(laundryModel.getLaundryID()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Boolean deliveryOrder = dataSnapshot.child(FDB_KEY_DELIVERY_ORDER).getValue(Boolean.class);
-                            laundryModel.setDeliveryOder(deliveryOrder);
-
-                            final List<CategoryModel> listCategory = new ArrayList<>();
-
-                            for (DataSnapshot data : dataSnapshot.child(FDB_KEY_CATEGORIES).getChildren()) {
-                                final CategoryModel categoryModel = new CategoryModel();
-
-                                String categoryID = data.getKey();
-
-                                categoryModel.setCategoryID(categoryID);
-
-                                String categoryUnit = data.child(FDB_KEY_CATEGORY_UNIT).getValue(String.class);
-                                Integer categoryPrice = data.child(FDB_KEY_CATEGORY_PRICE).getValue(Integer.class);
-
-                                categoryModel.setCategoryUnit(categoryUnit);
-                                categoryModel.setCategoryPrice(categoryPrice);
-
-                                assert categoryID != null;
-                                dbCategoryRef.child(categoryID).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String categoryName = dataSnapshot.child(FDB_KEY_CATEGORY_NAME).getValue(String.class);
-                                        categoryModel.setCategoryName(categoryName);
-
-                                        listCategory.add(categoryModel);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        Log.e("error", "onCancelled: " + databaseError.getMessage());
-                                    }
-                                });
-                            }
-
-                            laundryModel.setCategories(listCategory);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e("error", "onCancelled: " + databaseError.getMessage());
-                        }
-                    });
-
-                    laundryList.add(laundryModel);
-                }
-
-                adapter.setData(laundryList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("error", "onCancelled: " + databaseError.getMessage());
-            }
-        });
-    }*/
 }

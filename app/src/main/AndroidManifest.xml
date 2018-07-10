@@ -42,7 +42,8 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".ChangeNameActivity" />
-        <activity android:name=".EditEmailActivity"></activity>
+        <activity android:name=".EditEmailActivity" />
+        <activity android:name=".DetailLaundryActivity"></activity>
     </application>
 
 </manifest>
