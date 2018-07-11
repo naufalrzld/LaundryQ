@@ -44,6 +44,7 @@ import butterknife.ButterKnife;
 
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORIES;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_ICON;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_NAME;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_PRICE;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_UNIT;
@@ -228,7 +229,7 @@ public class HomeFragment extends Fragment {
                             LaundryModel laundryModel = dataSnapshot.getValue(LaundryModel.class);
 
                             assert laundryModel != null;
-                            for (DataSnapshot categories : ds.child(FDB_KEY_CATEGORIES).getChildren()) {
+                            for (final DataSnapshot categories : ds.child(FDB_KEY_CATEGORIES).getChildren()) {
                                 final String categoryID = categories.getKey();
                                 final Integer categoryPrice = categories.child(FDB_KEY_CATEGORY_PRICE).getValue(Integer.class);
                                 final String categoryUnit = categories.child(FDB_KEY_CATEGORY_UNIT).getValue(String.class);
@@ -238,12 +239,14 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         String categoryName = dataSnapshot.child(FDB_KEY_CATEGORY_NAME).getValue(String.class);
+                                        String icon = dataSnapshot.child(FDB_KEY_CATEGORY_ICON).getValue(String.class);
 
                                         CategoryModel categoryModel = new CategoryModel();
                                         categoryModel.setCategoryID(categoryID);
                                         categoryModel.setCategoryName(categoryName);
                                         categoryModel.setCategoryUnit(categoryUnit);
                                         categoryModel.setCategoryPrice(categoryPrice);
+                                        categoryModel.setIcon(icon);
 
                                         categoryList.add(categoryModel);
                                     }

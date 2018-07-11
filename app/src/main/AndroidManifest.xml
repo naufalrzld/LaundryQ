@@ -43,7 +43,8 @@
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".ChangeNameActivity" />
         <activity android:name=".EditEmailActivity" />
-        <activity android:name=".DetailLaundryActivity"></activity>
+        <activity android:name=".DetailLaundryActivity" />
+        <activity android:name=".OrderActivity"></activity>
     </application>
 
 </manifest>

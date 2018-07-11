@@ -1,6 +1,7 @@
 package com.motion.laundryq;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,12 +20,15 @@ import com.motion.laundryq.adapter.TimeOperationalAdapter;
 import com.motion.laundryq.model.LaundryModel;
 import com.motion.laundryq.model.TimeOperationalModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_CATEGORIES;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_MODEL;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_NAME;
 
 public class DetailLaundryActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -38,6 +43,8 @@ public class DetailLaundryActivity extends AppCompatActivity {
     TextView tvIdLine;
     @BindView(R.id.list_time_operational)
     ListView listTimeOperational;
+    @BindView(R.id.lyt_book)
+    LinearLayout lytBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +56,7 @@ public class DetailLaundryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent dataIntent = getIntent();
-        LaundryModel laundryModel = dataIntent.getParcelableExtra(KEY_DATA_INTENT_LAUNDRY_MODEL);
+        final LaundryModel laundryModel = dataIntent.getParcelableExtra(KEY_DATA_INTENT_LAUNDRY_MODEL);
 
         String laundryName = laundryModel.getLaundryName();
         String urlPhoto = laundryModel.getUrlPhoto();
@@ -82,6 +89,16 @@ public class DetailLaundryActivity extends AppCompatActivity {
         listTimeOperational.setAdapter(adapter);
 
         justifyListViewHeightBasedOnChildren(listTimeOperational);
+
+        lytBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailLaundryActivity.this, OrderActivity.class);
+                intent.putExtra(KEY_DATA_INTENT_LAUNDRY_NAME, laundryModel.getLaundryName());
+                intent.putParcelableArrayListExtra(KEY_DATA_INTENT_CATEGORIES, (ArrayList<? extends Parcelable>) laundryModel.getCategories());
+                startActivity(intent);
+            }
+        });
     }
 
     public void justifyListViewHeightBasedOnChildren (ListView listView) {

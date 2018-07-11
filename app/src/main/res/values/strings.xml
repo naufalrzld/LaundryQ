@@ -55,4 +55,11 @@
     <string name="txt_contact">Kontak</string>
     <string name="txt_jadwal_laundry">Jadwal Laundry</string>
     <string name="txt_book">Pesan</string>
+    <string name="activity_order_title">Pesan</string>
+    <string name="btn_title_wash">Cuci</string>
+    <string name="txt_note_order"><![CDATA[Berikut jenis cucian yang dapat diterima oleh <b>%1s</b>.
+        <br> Silahkan pilih jenis barang yang akan kamu cuci kemudian klik tombol <b>CUCI</b>.
+        Masukkan perkiraan total berat (KG) / jumlah barang (SET) cucian kamu.]]>
+    </string>
+    <string name="txt_information">Informasi</string>
 </resources>
