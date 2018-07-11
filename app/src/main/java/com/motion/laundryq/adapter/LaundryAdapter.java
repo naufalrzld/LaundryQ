@@ -2,6 +2,7 @@ package com.motion.laundryq.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_MODE
 public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHolder> {
     private Context context;
     private List<LaundryModel> laundryList;
+    private LatLng currentLocation;
 
     public LaundryAdapter(Context context) {
         this.context = context;
@@ -39,6 +41,10 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
     public void setData(List<LaundryModel> laundryList) {
         this.laundryList = laundryList;
         notifyDataSetChanged();
+    }
+
+    public void setCurrentLocation(LatLng latLng) {
+        this.currentLocation = latLng;
     }
 
     @NonNull
@@ -57,6 +63,30 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
         if (isActive) {
             String urlPhoto = laundryModel.getUrlPhoto();
             String laundryName = laundryModel.getLaundryName();
+
+            double lat = laundryModel.getLocation().getLatitude();
+            double lng = laundryModel.getLocation().getLongitude();
+
+            Location startPoint = new Location("Location A");
+            startPoint.setLatitude(currentLocation.latitude);
+            startPoint.setLongitude(currentLocation.longitude);
+
+            Location endPoint = new Location("Location B");
+            endPoint.setLatitude(lat);
+            endPoint.setLongitude(lng);
+
+            DecimalFormat df = new DecimalFormat("###.##");
+            double distance=startPoint.distanceTo(endPoint);
+            double km = distance/1000;
+
+            String distanceString;
+            if (km >= 1) {
+                distanceString = df.format(km) + " KM";
+            } else {
+                distanceString = df.format(distance) + " M";
+            }
+
+            holder.tvDistance.setText(distanceString);
 
             String status;
             boolean isOpen = laundryModel.isOpen();
@@ -99,7 +129,7 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
         @BindView(R.id.tv_laundry_name)
         TextView laundryName;
         @BindView(R.id.tv_distance)
-        TextView laundryDistance;
+        TextView tvDistance;
         /*@BindView(R.id.like_button)
         LikeButton likeButton;*/
         @BindView(R.id.tv_laundry_status)
@@ -111,7 +141,7 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
         }
     }
 
-    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+    private double calculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
         double lat1 = StartP.latitude;
         double lat2 = EndP.latitude;
@@ -130,9 +160,31 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
         int kmInDec = Integer.valueOf(newFormat.format(km));
         double meter = valueResult % 1000;
         int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+        Log.i("Radius Value", "" + valueResult + "   KM  " + km
                 + " Meter   " + meterInDec);
 
         return Radius * c;
+    }
+
+    private double meterDistanceBetweenPoints(LatLng startPoint, LatLng endPoint) {
+        float pk = (float) (180.f/Math.PI);
+
+        double lat_a = startPoint.latitude;
+        double lng_a = startPoint.longitude;
+
+        double lat_b = endPoint.latitude;
+        double lng_b = endPoint.longitude;
+
+        double a1 = lat_a / pk;
+        double a2 = lng_a / pk;
+        double b1 = lat_b / pk;
+        double b2 = lng_b / pk;
+
+        double t1 = Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math.cos(b2);
+        double t2 = Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math.sin(b2);
+        double t3 = Math.sin(a1) * Math.sin(b1);
+        double tt = Math.acos(t1 + t2 + t3);
+
+        return 6366000 * tt;
     }
 }

@@ -1,8 +1,12 @@
 package com.motion.laundryq.fragment;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +21,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +72,9 @@ public class HomeFragment extends Fragment {
     private DatabaseReference dbCategoryRef;
     private LaundryAdapter adapter;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    private double latitude, longitude;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -76,6 +87,9 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+
         dbLaundryRef= FirebaseDatabase.getInstance().getReference(FDB_KEY_LAUNDRY);
         dbLaundryServicesRef= FirebaseDatabase.getInstance().getReference(FDB_KEY_LAUNDRY_SERVICES);
         dbCategoryRef= FirebaseDatabase.getInstance().getReference(FDB_KEY_CATEGORY);
@@ -84,6 +98,22 @@ public class HomeFragment extends Fragment {
         rvList.setHasFixedSize(true);
         rvList.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvList.setAdapter(adapter);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+
+                                adapter.setCurrentLocation(new LatLng(latitude, longitude));
+                            }
+                        }
+                    });
+        }
 
         lytFilter.setOnClickListener(new View.OnClickListener() {
             @Override
