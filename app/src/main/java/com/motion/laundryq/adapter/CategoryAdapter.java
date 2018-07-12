@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.motion.laundryq.R;
 import com.motion.laundryq.model.CategoryModel;
+import com.motion.laundryq.utils.CurrencyConverter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -29,15 +30,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private Context context;
     private List<CategoryModel> categoryList;
     private int[] count;
+    private int total=0;
+    private ListItemClickListener mOnClickListener;
+
+    public interface ListItemClickListener {
+        void onListItemClick(int total);
+    }
 
     public CategoryAdapter(Context context) {
         this.context = context;
         categoryList = new ArrayList<>();
     }
 
-    public void setCategoryList(List<CategoryModel> categoryList) {
+    public void setCategoryList(List<CategoryModel> categoryList, ListItemClickListener listener) {
         this.categoryList = categoryList;
         count = new int[categoryList.size()];
+        this.mOnClickListener = listener;
     }
 
     @NonNull
@@ -55,19 +63,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         count[position] = 0;
         String icon = categoryModel.getIcon();
         String categoryName = categoryModel.getCategoryName();
-        int categoryPrice = categoryModel.getCategoryPrice();
+        final int categoryPrice = categoryModel.getCategoryPrice();
         String categoryUnit = categoryModel.getCategoryUnit();
 
-        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-
-        formatRp.setCurrencySymbol("Rp. ");
-        formatRp.setGroupingSeparator('.');
-
-        kursIndonesia.setDecimalFormatSymbols(formatRp);
-        kursIndonesia.setMaximumFractionDigits(0);
-
-        String categoryPriceUnit = kursIndonesia.format(categoryPrice) + " / " + categoryUnit;
+        String categoryPriceUnit = CurrencyConverter.toIDR(categoryPrice) + " / " + categoryUnit;
 
         Glide.with(context).load(icon).into(holder.imgCategory);
         holder.tvCategoryName.setText(categoryName);
@@ -78,7 +77,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 holder.lytNumberPicker.setVisibility(View.VISIBLE);
                 holder.btnWash.setVisibility(View.GONE);
                 count[position]++;
+                total = total + categoryPrice * count[position];
                 holder.tvCount.setText(String.valueOf(count[position]));
+                mOnClickListener.onListItemClick(total);
             }
         });
 
@@ -86,7 +87,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 count[position]++;
+                total = total + categoryPrice;
                 holder.tvCount.setText(String.valueOf(count[position]));
+                mOnClickListener.onListItemClick(total);
             }
         });
 
@@ -94,11 +97,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 count[position]--;
+                total = total - categoryPrice;
                 holder.tvCount.setText(String.valueOf(count[position]));
                 if (count[position] == 0) {
                     holder.btnWash.setVisibility(View.VISIBLE);
                     holder.lytNumberPicker.setVisibility(View.GONE);
                 }
+                mOnClickListener.onListItemClick(total);
             }
         });
     }
