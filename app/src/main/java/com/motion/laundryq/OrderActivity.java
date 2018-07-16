@@ -1,28 +1,24 @@
 package com.motion.laundryq;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
-import com.motion.laundryq.adapter.CategoryAdapter;
 import com.motion.laundryq.adapter.ViewPagerAdapter;
-import com.motion.laundryq.fragment.TypeLaundryFragment;
+import com.motion.laundryq.fragment.order.PickLocationFragment;
+import com.motion.laundryq.fragment.order.TimePickFragment;
+import com.motion.laundryq.fragment.order.TypeLaundryFragment;
 import com.motion.laundryq.model.CategoryModel;
+import com.motion.laundryq.model.OrderLaundryModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +40,7 @@ public class OrderActivity extends AppCompatActivity {
     Button btnNext;
 
     private ViewPagerAdapter viewPagerAdapter;
+    private OrderLaundryModel orderLaundryModel;
     private int viewPagerPosition, currentState;
 
     @Override
@@ -56,6 +53,8 @@ public class OrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setupViewPager(viewPager);
+
+        orderLaundryModel = new OrderLaundryModel();
 
         viewPagerPosition = viewPager.getCurrentItem();
 
@@ -88,6 +87,29 @@ public class OrderActivity extends AppCompatActivity {
                 if (viewPagerPosition != 3) {
                     Fragment fragment = viewPagerAdapter.getItem(viewPagerPosition);
                     if (fragment instanceof TypeLaundryFragment) {
+                        TypeLaundryFragment tlf = (TypeLaundryFragment) fragment;
+
+                        orderLaundryModel.setTotal(tlf.getTotal());
+                        orderLaundryModel.setCategories(tlf.getCategories());
+
+                        nextViewPager(viewPagerPosition, currentState);
+                    } else if (fragment instanceof PickLocationFragment) {
+                        PickLocationFragment pcf = (PickLocationFragment) fragment;
+
+                        if (pcf.isInputValid()) {
+                            String address = pcf.getAddress();
+                            String addressDetail = pcf.getAddressDetail();
+                            double lat = pcf.getLatitude();
+                            double lng = pcf.getLongitude();
+
+                            orderLaundryModel.setAddressPick(address);
+                            orderLaundryModel.setAddressDetailPick(addressDetail);
+                            orderLaundryModel.setLatPick(lat);
+                            orderLaundryModel.setLngPick(lng);
+
+                            nextViewPager(viewPagerPosition, currentState);
+                        }
+                    } else if (fragment instanceof TimePickFragment) {
                         Toast.makeText(OrderActivity.this, "TODO", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -113,6 +135,8 @@ public class OrderActivity extends AppCompatActivity {
         typeLaundryFragment.setArguments(bundle);
 
         viewPagerAdapter.addFragment(typeLaundryFragment, "Jenis Cucian");
+        viewPagerAdapter.addFragment(new PickLocationFragment(), "Lokasi Pengambilan");
+        viewPagerAdapter.addFragment(new TimePickFragment(), "Waktu Pengambilan & Pengiriman");
 
         viewPager.setAdapter(viewPagerAdapter);
     }
@@ -138,11 +162,33 @@ public class OrderActivity extends AppCompatActivity {
         viewPagerPosition = viewPager.getCurrentItem();
     }
 
+    private void previousViewPager(int position, int state) {
+        switch (state) {
+            case 2:
+                step.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                break;
+            case 3:
+                step.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                break;
+            case 4:
+                step.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                break;
+        }
+        if (position != 0) {
+            setStepTitle((String) viewPagerAdapter.getPageTitle(position - 1));
+            viewPager.setCurrentItem(position - 1);
+            viewPagerPosition = viewPager.getCurrentItem();
+        } else {
+            finish();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                currentState = step.getCurrentStateNumber();
+                previousViewPager(viewPagerPosition, currentState);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -1,4 +1,4 @@
-package com.motion.laundryq.fragment;
+package com.motion.laundryq.fragment.order;
 
 
 import android.os.Bundle;
@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.CategoryAdapter;
 import com.motion.laundryq.model.CategoryModel;
+import com.motion.laundryq.model.OrderLaundryModel;
 import com.motion.laundryq.utils.CurrencyConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,10 +38,29 @@ public class TypeLaundryFragment extends Fragment implements CategoryAdapter.Lis
     @BindView(R.id.tv_total)
     TextView tvTotal;
 
+    private List<CategoryModel> categories = new ArrayList<>();
+
+    private int total;
+
     public TypeLaundryFragment() {
         // Required empty public constructor
     }
 
+    public List<CategoryModel> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryModel> categories) {
+        this.categories = categories;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +88,24 @@ public class TypeLaundryFragment extends Fragment implements CategoryAdapter.Lis
     }
 
     @Override
-    public void onListItemClick(int total) {
+    public void onOnItemSelected(CategoryModel categoryModel, int total) {
+        categories.add(categoryModel);
         tvTotal.setText(CurrencyConverter.toIDR(total));
+
+        setTotal(total);
+        setCategories(categories);
+    }
+
+    @Override
+    public void onItemUpdate(CategoryModel categoryModel, int total) {
+        categories.remove(categoryModel);
+        tvTotal.setText(CurrencyConverter.toIDR(total));
+
+        if (categoryModel.getQuantity() != 0) {
+            categories.add(categoryModel);
+        }
+
+        setTotal(total);
+        setCategories(categories);
     }
 }

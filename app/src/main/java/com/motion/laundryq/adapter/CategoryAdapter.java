@@ -16,12 +16,8 @@ import com.motion.laundryq.R;
 import com.motion.laundryq.model.CategoryModel;
 import com.motion.laundryq.utils.CurrencyConverter;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +30,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(int total);
+        void onOnItemSelected(CategoryModel categoryModel, int total);
+        void onItemUpdate(CategoryModel categoryModel, int total);
     }
 
     public CategoryAdapter(Context context) {
@@ -58,11 +55,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        CategoryModel categoryModel = categoryList.get(position);
+        final CategoryModel categoryModel = categoryList.get(position);
 
         count[position] = 0;
         String icon = categoryModel.getIcon();
-        String categoryName = categoryModel.getCategoryName();
+        final String categoryName = categoryModel.getCategoryName();
         final int categoryPrice = categoryModel.getCategoryPrice();
         String categoryUnit = categoryModel.getCategoryUnit();
 
@@ -79,7 +76,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 count[position]++;
                 total = total + categoryPrice * count[position];
                 holder.tvCount.setText(String.valueOf(count[position]));
-                mOnClickListener.onListItemClick(total);
+
+                categoryModel.setQuantity(count[position]);
+
+                mOnClickListener.onOnItemSelected(categoryModel, total);
             }
         });
 
@@ -89,7 +89,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 count[position]++;
                 total = total + categoryPrice;
                 holder.tvCount.setText(String.valueOf(count[position]));
-                mOnClickListener.onListItemClick(total);
+
+                categoryModel.setQuantity(count[position]);
+
+                mOnClickListener.onItemUpdate(categoryModel, total);
             }
         });
 
@@ -103,7 +106,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     holder.btnWash.setVisibility(View.VISIBLE);
                     holder.lytNumberPicker.setVisibility(View.GONE);
                 }
-                mOnClickListener.onListItemClick(total);
+
+                categoryModel.setQuantity(count[position]);
+
+                mOnClickListener.onItemUpdate(categoryModel, total);
             }
         });
     }

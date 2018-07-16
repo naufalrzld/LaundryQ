@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MapActivity">
-
-    <include layout="@layout/custom_toolbar" />
+    tools:context=".fragment.order.PickLocationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -59,12 +56,12 @@
         android:padding="16dp">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_alamat"
+            android:id="@+id/til_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_alamat"
+                android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_alamat_lengkap"/>
@@ -72,26 +69,17 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_alamat_detail"
+            android:id="@+id/til_address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_alamat_detail"
+                android:id="@+id/et_address_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_alamat_detail"/>
+                android:hint="@string/hint_detail_address"/>
 
         </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_simpan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_simpan_title"
-            android:textColor="@color/colorPrimary"
-            android:background="@drawable/btn_transparant_effect"
-            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 

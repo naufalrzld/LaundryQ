@@ -63,9 +63,13 @@
     </string>
     <string name="txt_information">Informasi</string>
     <string name="txt_total">Total</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_title_next">Lanjut</string>
     <string name="txt_perkiraan">(Perkiraan)</string>
+    <string name="hint_detail_address">Detail Alamat (Optional)</string>
+    <string name="txt_pickup">Pengambilan</string>
+    <string name="hint_date_pick">Tanggal Pengambilan</string>
+    <string name="hint_date_delivery">Tanggal Pengiriman</string>
+    <string name="txt_delivery">Pengiriman</string>
+    <string name="hint_time_pick">Jam Pengambilan</string>
+    <string name="hint_time_delivery">Jam Pengiriman</string>
 </resources>

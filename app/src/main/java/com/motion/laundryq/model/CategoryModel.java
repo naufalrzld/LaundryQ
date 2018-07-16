@@ -9,6 +9,7 @@ public class CategoryModel implements Parcelable {
     private String categoryUnit;
     private String icon;
     private Integer categoryPrice;
+    private int quantity;
 
     public CategoryModel() {
     }
@@ -53,6 +54,14 @@ public class CategoryModel implements Parcelable {
         this.icon = icon;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -65,6 +74,7 @@ public class CategoryModel implements Parcelable {
         dest.writeString(this.categoryUnit);
         dest.writeString(this.icon);
         dest.writeValue(this.categoryPrice);
+        dest.writeInt(this.quantity);
     }
 
     protected CategoryModel(Parcel in) {
@@ -73,6 +83,7 @@ public class CategoryModel implements Parcelable {
         this.categoryUnit = in.readString();
         this.icon = in.readString();
         this.categoryPrice = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.quantity = in.readInt();
     }
 
     public static final Creator<CategoryModel> CREATOR = new Creator<CategoryModel>() {
