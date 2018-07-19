@@ -1,33 +1,51 @@
 package com.motion.laundryq;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.motion.laundryq.adapter.ViewPagerAdapter;
+import com.motion.laundryq.fragment.order.CheckoutOrderFragment;
 import com.motion.laundryq.fragment.order.PickLocationFragment;
 import com.motion.laundryq.fragment.order.TimePickFragment;
 import com.motion.laundryq.fragment.order.TypeLaundryFragment;
+import com.motion.laundryq.model.AddressModel;
 import com.motion.laundryq.model.CategoryModel;
 import com.motion.laundryq.model.OrderLaundryModel;
+import com.motion.laundryq.model.UserModel;
+import com.motion.laundryq.utils.SharedPreference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_CATEGORIES;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_ID;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_NAME;
+import static com.motion.laundryq.utils.AppConstant.KEY_ORDER_LAUNDRY;
+import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class OrderActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -40,8 +58,13 @@ public class OrderActivity extends AppCompatActivity {
     Button btnNext;
 
     private ViewPagerAdapter viewPagerAdapter;
-    private OrderLaundryModel orderLaundryModel;
+
     private int viewPagerPosition, currentState;
+    private String addressDelivery;
+
+    private Intent dataIntent;
+
+    private ProgressDialog orderLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +72,37 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
 
+        orderLoading = new ProgressDialog(this);
+        orderLoading.setMessage("Memesan . . .");
+        orderLoading.setCancelable(false);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setupViewPager(viewPager);
+        final OrderLaundryModel orderLaundryModel = new OrderLaundryModel();
 
-        orderLaundryModel = new OrderLaundryModel();
+        Locale locale = new Locale("in", "ID");
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss", locale);
+        Calendar calendar = Calendar.getInstance();
+        final String orderID = sdf.format(calendar.getTime());
+
+        orderLaundryModel.setOrderID(orderID);
+
+        dataIntent = getIntent();
+        String laundryID = dataIntent.getStringExtra(KEY_DATA_INTENT_LAUNDRY_ID);
+        orderLaundryModel.setLaundryID(laundryID);
+
+        SharedPreference sharedPreference = new SharedPreference(this);
+
+        if (sharedPreference.checkIfDataExists(KEY_PROFILE)) {
+            UserModel userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
+            String userID = userModel.getUserID();
+            orderLaundryModel.setUserID(userID);
+            AddressModel addressModel = userModel.getAddress();
+            addressDelivery = addressModel.getAlamatDetail() + " | " + addressModel.getAlamat();
+        }
+
+        setupViewPager(viewPager);
 
         viewPagerPosition = viewPager.getCurrentItem();
 
@@ -69,7 +117,9 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 3) {
-                    btnNext.setText("Selesai");
+                    btnNext.setText("Order");
+                } else {
+                    btnNext.setText("Lanjut");
                 }
             }
 
@@ -110,10 +160,39 @@ public class OrderActivity extends AppCompatActivity {
                             nextViewPager(viewPagerPosition, currentState);
                         }
                     } else if (fragment instanceof TimePickFragment) {
-                        Toast.makeText(OrderActivity.this, "TODO", Toast.LENGTH_SHORT).show();
+                        TimePickFragment tpf = (TimePickFragment) fragment;
+                        String datePickup = tpf.getDatePickup();
+                        String dateDelivery = tpf.getDateDelivery();
+                        String timePickup = tpf.getTimePickup();
+                        String timeDelivery = tpf.getTimeDelivery();
+
+                        orderLaundryModel.setDatePickup(datePickup);
+                        orderLaundryModel.setDateDelivery(dateDelivery);
+                        orderLaundryModel.setTimePickup(timePickup);
+                        orderLaundryModel.setTimeDelivery(timeDelivery);
+
+                        CheckoutOrderFragment cof = (CheckoutOrderFragment) viewPagerAdapter.getItem(viewPagerPosition+1);
+                        cof.setCategories(orderLaundryModel.getCategories());
+                        cof.setTotal(orderLaundryModel.getTotal());
+
+                        String addressPick = orderLaundryModel.getAddressDetailPick() + " | " + orderLaundryModel.getAddressPick();
+                        String dateTimePick = datePickup + ", " + timePickup;
+                        String dateTimeDelivery = dateDelivery + ", " + timeDelivery;
+
+                        cof.setOrderID(orderID);
+                        cof.setAddressPickup(addressPick);
+                        cof.setAddressDelivery(addressDelivery);
+                        cof.setTimePickup(dateTimePick);
+                        cof.setTimeDelivery(dateTimeDelivery);
+
+                        orderLaundryModel.setDateOrder(cof.getDateOrder());
+
+                        nextViewPager(viewPagerPosition, currentState);
                     }
                 } else {
                     step.setAllStatesCompleted(true);
+
+                    saveOrder(orderLaundryModel);
                 }
             }
         });
@@ -122,7 +201,6 @@ public class OrderActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        Intent dataIntent = getIntent();
         Bundle bundle = new Bundle();
 
         List<CategoryModel> categories = dataIntent.getParcelableArrayListExtra(KEY_DATA_INTENT_CATEGORIES);
@@ -136,7 +214,8 @@ public class OrderActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(typeLaundryFragment, "Jenis Cucian");
         viewPagerAdapter.addFragment(new PickLocationFragment(), "Lokasi Pengambilan");
-        viewPagerAdapter.addFragment(new TimePickFragment(), "Waktu Pengambilan & Pengiriman");
+        viewPagerAdapter.addFragment(new TimePickFragment(), "Waktu & Tanggal");
+        viewPagerAdapter.addFragment(new CheckoutOrderFragment(), "Checkout");
 
         viewPager.setAdapter(viewPagerAdapter);
     }
@@ -181,6 +260,23 @@ public class OrderActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    private void saveOrder(OrderLaundryModel orderLaundryModel) {
+        orderLoading.show();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(FDB_KEY_ORDER);
+        databaseReference.child(orderLaundryModel.getOrderID()).setValue(orderLaundryModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                orderLoading.dismiss();
+                if (task.isSuccessful()) {
+                    Toast.makeText(OrderActivity.this, "Order Berhasil", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(OrderActivity.this, "Order Gagal", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

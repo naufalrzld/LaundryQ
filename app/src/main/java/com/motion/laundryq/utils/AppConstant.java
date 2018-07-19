@@ -20,8 +20,10 @@ public class AppConstant {
     public static final String FDB_KEY_TIME_OPERATIONAL = "time_operational";
     public static final String FDB_KEY_TIME_OPEN = "time_open";
     public static final String FDB_KEY_TIME_CLOSE = "time_close";
+    public static final String FDB_KEY_ORDER = "order";
 
     public static final String KEY_PROFILE = "profile";
+    public static final String KEY_ORDER_LAUNDRY = "order_laundry";
     public static final String KEY_DATA_INTENT_EDIT = "edit";
     public static final String KEY_DATA_INTENT_USER_ID = "user_id";
     public static final String KEY_DATA_INTENT_NAME = "name";
@@ -29,6 +31,7 @@ public class AppConstant {
     public static final String KEY_DATA_INTENT_ADDRESS = "address";
     public static final String KEY_DATA_INTENT_ADDRESS_DETAIL = "detailAddress";
     public static final String KEY_DATA_INTENT_NO_TLP = "no_tlp";
+    public static final String KEY_DATA_INTENT_LAUNDRY_ID = "laundry_id";
     public static final String KEY_DATA_INTENT_LAUNDRY_NAME = "laundry_name";
     public static final String KEY_DATA_INTENT_LAUNDRY_MODEL = "laundry_model";
     public static final String KEY_DATA_INTENT_CATEGORIES = "laundry_categories";

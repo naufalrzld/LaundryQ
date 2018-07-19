@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_CATEGORIES;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_ID;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_MODEL;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_NAME;
 
@@ -94,6 +95,7 @@ public class DetailLaundryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailLaundryActivity.this, OrderActivity.class);
+                intent.putExtra(KEY_DATA_INTENT_LAUNDRY_ID, laundryModel.getLaundryID());
                 intent.putExtra(KEY_DATA_INTENT_LAUNDRY_NAME, laundryModel.getLaundryName());
                 intent.putParcelableArrayListExtra(KEY_DATA_INTENT_CATEGORIES, (ArrayList<? extends Parcelable>) laundryModel.getCategories());
                 startActivity(intent);
@@ -101,7 +103,7 @@ public class DetailLaundryActivity extends AppCompatActivity {
         });
     }
 
-    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+    public void justifyListViewHeightBasedOnChildren(ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
 

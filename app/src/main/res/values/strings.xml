@@ -72,4 +72,14 @@
     <string name="txt_delivery">Pengiriman</string>
     <string name="hint_time_pick">Jam Pengambilan</string>
     <string name="hint_time_delivery">Jam Pengiriman</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_laundry">Cucian Anda</string>
+    <string name="txt_pickup_address">Alamat Pengambilan</string>
+    <string name="txt_delivery_address">Alamat Pengiriman</string>
+    <string name="txt_time_pickup">Waktu Pengambilan</string>
+    <string name="txt_time_delivery">Waktu Pengiriman</string>
+    <string name="txt_date_order">Tanggal Order</string>
+    <string name="txt_order_id">Order ID</string>
 </resources>

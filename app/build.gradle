@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+    implementation 'com.wdullaer:materialdatetimepicker:3.6.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testImplementation 'junit:junit:4.12'
