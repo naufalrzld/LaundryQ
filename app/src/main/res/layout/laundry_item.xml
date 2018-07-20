@@ -1,113 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    app:cardElevation="4dp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv_item"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/laundry_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginTop="8dp">
 
-            <ImageView
-                android:id="@+id/laundry_image"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="fitXY"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_laundry_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/tv_laundry_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="LaundryQ"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:layout_marginTop="8dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_place_24dp" />
-
-                    <TextView
-                        android:id="@+id/tv_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="6 KM"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-
-
-                <!--<LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <com.github.ivbaranov.mfb.MaterialFavoriteButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:mfb_type="heart"
-                        app:mfb_animate_favorite="false"
-                        app:mfb_animate_unfavorite="false"
-                        app:mfb_size="18"
-                        app:mfb_padding="0"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/txt_like"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"/>
-
-                </LinearLayout>-->
-
-                <TextView
-                    android:id="@+id/tv_laundry_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Buka"
-                    android:background="@drawable/tv_status_open_template" />
-
-            </LinearLayout>
+                tools:text="LaundryQ"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginTop="8dp">
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_place_24dp" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="6 KM"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+
+            <!--<LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mfb_type="heart"
+                    app:mfb_animate_favorite="false"
+                    app:mfb_animate_unfavorite="false"
+                    app:mfb_size="18"
+                    app:mfb_padding="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_like"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/tv_laundry_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Buka"
+                android:background="@drawable/tv_status_open_template" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

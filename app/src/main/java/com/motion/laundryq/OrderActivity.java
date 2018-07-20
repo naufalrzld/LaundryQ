@@ -192,6 +192,8 @@ public class OrderActivity extends AppCompatActivity {
                 } else {
                     step.setAllStatesCompleted(true);
 
+                    orderLaundryModel.setStatus(0);
+
                     saveOrder(orderLaundryModel);
                 }
             }

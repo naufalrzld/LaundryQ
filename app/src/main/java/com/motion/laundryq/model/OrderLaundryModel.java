@@ -17,6 +17,7 @@ public class OrderLaundryModel {
     private String dateDelivery;
     private String timeDelivery;
     private String dateOrder;
+    private int status;
     private List<CategoryModel> categories;
 
     public OrderLaundryModel() {
@@ -128,6 +129,14 @@ public class OrderLaundryModel {
 
     public List<CategoryModel> getCategories() {
         return categories;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setCategories(List<CategoryModel> categories) {

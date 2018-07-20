@@ -82,4 +82,7 @@
     <string name="txt_time_delivery">Waktu Pengiriman</string>
     <string name="txt_date_order">Tanggal Order</string>
     <string name="txt_order_id">Order ID</string>
+    <string name="txt_date_finish">Tanggal Selesai</string>
+    <string name="txt_date_pick">Tanggal pengambilan</string>
+    <string name="txt_date_delivery">Tanggal pengiriman</string>
 </resources>

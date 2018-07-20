@@ -3,10 +3,12 @@ package com.motion.laundryq.utils;
 public class AppConstant {
     public static final String FDB_KEY_USER = "users";
     public static final String FDB_KEY_LAUNDRY = "laundry";
+    public static final String FDB_KEY_LAUNDRYID = "laundryID";
     public static final String FDB_KEY_LAUNDRY_SERVICES = "laundry_services";
     public static final String FDB_KEY_CATEGORY = "category";
     public static final String FDB_KEY_USER_CUSTOMER = "customer";
     public static final String FDB_KEY_USER_ADDRESS = "address";
+    public static final String FDB_KEY_USERID = "userID";
     public static final String FDB_KEY_EMAIL = "email";
     public static final String FDB_KEY_NAME = "nama";
     public static final String FDB_KEY_NO_TLP = "noTlp";
