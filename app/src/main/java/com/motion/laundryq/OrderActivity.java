@@ -60,7 +60,8 @@ public class OrderActivity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;
 
     private int viewPagerPosition, currentState;
-    private String addressDelivery;
+    private String addressDelivery, addressDeliv, addressDetailDeliv;
+    private double latDeliv, lngDeliv;
 
     private Intent dataIntent;
 
@@ -89,7 +90,7 @@ public class OrderActivity extends AppCompatActivity {
         orderLaundryModel.setOrderID(orderID);
 
         dataIntent = getIntent();
-        String laundryID = dataIntent.getStringExtra(KEY_DATA_INTENT_LAUNDRY_ID);
+        final String laundryID = dataIntent.getStringExtra(KEY_DATA_INTENT_LAUNDRY_ID);
         orderLaundryModel.setLaundryID(laundryID);
 
         SharedPreference sharedPreference = new SharedPreference(this);
@@ -100,6 +101,10 @@ public class OrderActivity extends AppCompatActivity {
             orderLaundryModel.setUserID(userID);
             AddressModel addressModel = userModel.getAddress();
             addressDelivery = addressModel.getAlamatDetail() + " | " + addressModel.getAlamat();
+            addressDeliv = addressModel.getAlamat();
+            addressDetailDeliv = addressModel.getAlamatDetail();
+            latDeliv = addressModel.getLatitude();
+            lngDeliv = addressModel.getLongitude();
         }
 
         setupViewPager(viewPager);
@@ -193,6 +198,11 @@ public class OrderActivity extends AppCompatActivity {
                     step.setAllStatesCompleted(true);
 
                     orderLaundryModel.setStatus(0);
+                    orderLaundryModel.setLaundryID_status(laundryID + "_" + 0);
+                    orderLaundryModel.setAddressDeliv(addressDeliv);
+                    orderLaundryModel.setAddressDetailDeliv(addressDetailDeliv);
+                    orderLaundryModel.setLatDeliv(latDeliv);
+                    orderLaundryModel.setLngDeliv(lngDeliv);
 
                     saveOrder(orderLaundryModel);
                 }

@@ -1,6 +1,5 @@
 package com.motion.laundryq.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderLaundryModel {
@@ -9,8 +8,12 @@ public class OrderLaundryModel {
     private String userID;
     private String addressPick;
     private String addressDetailPick;
+    private String addressDeliv;
+    private String addressDetailDeliv;
     private double latPick;
     private double lngPick;
+    private double latDeliv;
+    private double lngDeliv;
     private int total;
     private String datePickup;
     private String timePickup;
@@ -18,6 +21,7 @@ public class OrderLaundryModel {
     private String timeDelivery;
     private String dateOrder;
     private int status;
+    private String laundryID_status;
     private List<CategoryModel> categories;
 
     public OrderLaundryModel() {
@@ -63,6 +67,22 @@ public class OrderLaundryModel {
         this.addressDetailPick = addressDetailPick;
     }
 
+    public String getAddressDeliv() {
+        return addressDeliv;
+    }
+
+    public void setAddressDeliv(String addressDeliv) {
+        this.addressDeliv = addressDeliv;
+    }
+
+    public String getAddressDetailDeliv() {
+        return addressDetailDeliv;
+    }
+
+    public void setAddressDetailDeliv(String addressDetailDeliv) {
+        this.addressDetailDeliv = addressDetailDeliv;
+    }
+
     public double getLatPick() {
         return latPick;
     }
@@ -77,6 +97,22 @@ public class OrderLaundryModel {
 
     public void setLngPick(double lngPick) {
         this.lngPick = lngPick;
+    }
+
+    public double getLatDeliv() {
+        return latDeliv;
+    }
+
+    public void setLatDeliv(double latDeliv) {
+        this.latDeliv = latDeliv;
+    }
+
+    public double getLngDeliv() {
+        return lngDeliv;
+    }
+
+    public void setLngDeliv(double lngDeliv) {
+        this.lngDeliv = lngDeliv;
     }
 
     public int getTotal() {
@@ -127,16 +163,24 @@ public class OrderLaundryModel {
         this.dateOrder = dateOrder;
     }
 
-    public List<CategoryModel> getCategories() {
-        return categories;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getLaundryID_status() {
+        return laundryID_status;
+    }
+
+    public void setLaundryID_status(String laundryID_status) {
+        this.laundryID_status = laundryID_status;
+    }
+
+    public List<CategoryModel> getCategories() {
+        return categories;
     }
 
     public void setCategories(List<CategoryModel> categories) {

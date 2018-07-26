@@ -89,6 +89,7 @@ public class TypeLaundryFragment extends Fragment implements CategoryAdapter.Lis
 
     @Override
     public void onOnItemSelected(CategoryModel categoryModel, int total) {
+        categoryModel.setStatus(0);
         categories.add(categoryModel);
         tvTotal.setText(CurrencyConverter.toIDR(total));
 
