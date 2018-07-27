@@ -1,8 +1,11 @@
 package com.motion.laundryq.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class OrderLaundryModel {
+public class OrderLaundryModel implements Parcelable {
     private String orderID;
     private String laundryID;
     private String userID;
@@ -186,4 +189,68 @@ public class OrderLaundryModel {
     public void setCategories(List<CategoryModel> categories) {
         this.categories = categories;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.orderID);
+        dest.writeString(this.laundryID);
+        dest.writeString(this.userID);
+        dest.writeString(this.addressPick);
+        dest.writeString(this.addressDetailPick);
+        dest.writeString(this.addressDeliv);
+        dest.writeString(this.addressDetailDeliv);
+        dest.writeDouble(this.latPick);
+        dest.writeDouble(this.lngPick);
+        dest.writeDouble(this.latDeliv);
+        dest.writeDouble(this.lngDeliv);
+        dest.writeInt(this.total);
+        dest.writeString(this.datePickup);
+        dest.writeString(this.timePickup);
+        dest.writeString(this.dateDelivery);
+        dest.writeString(this.timeDelivery);
+        dest.writeString(this.dateOrder);
+        dest.writeInt(this.status);
+        dest.writeString(this.laundryID_status);
+        dest.writeTypedList(this.categories);
+    }
+
+    protected OrderLaundryModel(Parcel in) {
+        this.orderID = in.readString();
+        this.laundryID = in.readString();
+        this.userID = in.readString();
+        this.addressPick = in.readString();
+        this.addressDetailPick = in.readString();
+        this.addressDeliv = in.readString();
+        this.addressDetailDeliv = in.readString();
+        this.latPick = in.readDouble();
+        this.lngPick = in.readDouble();
+        this.latDeliv = in.readDouble();
+        this.lngDeliv = in.readDouble();
+        this.total = in.readInt();
+        this.datePickup = in.readString();
+        this.timePickup = in.readString();
+        this.dateDelivery = in.readString();
+        this.timeDelivery = in.readString();
+        this.dateOrder = in.readString();
+        this.status = in.readInt();
+        this.laundryID_status = in.readString();
+        this.categories = in.createTypedArrayList(CategoryModel.CREATOR);
+    }
+
+    public static final Creator<OrderLaundryModel> CREATOR = new Creator<OrderLaundryModel>() {
+        @Override
+        public OrderLaundryModel createFromParcel(Parcel source) {
+            return new OrderLaundryModel(source);
+        }
+
+        @Override
+        public OrderLaundryModel[] newArray(int size) {
+            return new OrderLaundryModel[size];
+        }
+    };
 }

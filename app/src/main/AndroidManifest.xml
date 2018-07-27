@@ -44,7 +44,8 @@
         <activity android:name=".ChangeNameActivity" />
         <activity android:name=".EditEmailActivity" />
         <activity android:name=".DetailLaundryActivity" />
-        <activity android:name=".OrderActivity"></activity>
+        <activity android:name=".OrderActivity" />
+        <activity android:name=".DetailOrderActivity"></activity>
     </application>
 
 </manifest>

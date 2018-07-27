@@ -23,10 +23,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private static final String SEPARATOR = ", ";
     private Context context;
     private List<OrderLaundryModel> orderList;
+    private OnCardViewClicked onCardViewClicked;
 
     public OrderAdapter(Context context) {
         this.context = context;
         orderList = new ArrayList<>();
+    }
+
+    public interface OnCardViewClicked {
+        void onCardClick(OrderLaundryModel orderLaundryModel);
+    }
+
+    public void setOnCardViewClicked(OnCardViewClicked onCardViewClicked) {
+        this.onCardViewClicked = onCardViewClicked;
     }
 
     public void setOrderList(List<OrderLaundryModel> orderList) {
@@ -44,7 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderLaundryModel orderLaundryModel = orderList.get(position);
+        final OrderLaundryModel orderLaundryModel = orderList.get(position);
         List<CategoryModel> categories = orderLaundryModel.getCategories();
 
         String orderID = orderLaundryModel.getOrderID();
@@ -66,16 +75,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         if (status == 0) {
             statusMsg = "Menunggu konfirmasi";
         } else if (status == 1) {
-            statusMsg = "Dikonfirmasi";
+            statusMsg = "Order diterima";
         } else if (status == 2) {
             statusMsg = "Order ditolak";
         } else if (status == 3) {
-            statusMsg = "Dicuci";
+            statusMsg = "Cucian selesai";
         } else if (status == 4) {
-            statusMsg = "Cuci selesai";
-        } else if (status == 5) {
             statusMsg = "Sedang diantar";
-        } else if (status == 6) {
+        } else if (status == 5) {
             statusMsg = "Sudah diterima";
         }
 
@@ -84,6 +91,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.tvDatePickup.setText(datePickup);
         holder.tvDateDelivery.setText(dateDelivery);
         holder.tvStatus.setText(statusMsg);
+        holder.cvItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardViewClicked.onCardClick(orderLaundryModel);
+            }
+        });
     }
 
     @Override

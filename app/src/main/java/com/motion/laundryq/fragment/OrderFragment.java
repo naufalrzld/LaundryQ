@@ -1,6 +1,7 @@
 package com.motion.laundryq.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.motion.laundryq.DetailOrderActivity;
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.OrderAdapter;
 import com.motion.laundryq.model.OrderLaundryModel;
@@ -34,12 +36,15 @@ import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRY;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRYID;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USERID;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ORDER_MODEL;
+import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_STATUS;
+import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_ORDER;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrderFragment extends Fragment {
+public class OrderFragment extends Fragment implements OrderAdapter.OnCardViewClicked {
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_order)
@@ -66,6 +71,7 @@ public class OrderFragment extends Fragment {
         final String userID = userModel.getUserID();
 
         adapter = new OrderAdapter(getContext());
+        adapter.setOnCardViewClicked(this);
         rvOrder.setHasFixedSize(true);
         rvOrder.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrder.setAdapter(adapter);
@@ -106,4 +112,11 @@ public class OrderFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onCardClick(OrderLaundryModel orderLaundryModel) {
+        Intent intent = new Intent(getActivity(), DetailOrderActivity.class);
+        intent.putExtra(KEY_DATA_INTENT_STATUS, KEY_INTENT_ORDER);
+        intent.putExtra(KEY_DATA_INTENT_ORDER_MODEL, orderLaundryModel);
+        startActivity(intent);
+    }
 }

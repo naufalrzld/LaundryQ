@@ -37,4 +37,9 @@ public class AppConstant {
     public static final String KEY_DATA_INTENT_LAUNDRY_NAME = "laundry_name";
     public static final String KEY_DATA_INTENT_LAUNDRY_MODEL = "laundry_model";
     public static final String KEY_DATA_INTENT_CATEGORIES = "laundry_categories";
+    public static final String KEY_DATA_INTENT_ORDER_MODEL = "laundry_model";
+    public static final String KEY_DATA_INTENT_STATUS = "status";
+
+    public static final int KEY_INTENT_ORDER = 1;
+    public static final int KEY_INTENT_CHECKOUT = 2;
 }

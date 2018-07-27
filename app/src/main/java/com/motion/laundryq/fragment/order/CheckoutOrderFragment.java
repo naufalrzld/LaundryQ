@@ -24,6 +24,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.KEY_INTENT_CHECKOUT;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -93,7 +95,7 @@ public class CheckoutOrderFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_checkout_order, container, false);
         ButterKnife.bind(this, v);
 
-        adapter = new MyLaundryAdapter(getContext());
+        adapter = new MyLaundryAdapter(getContext(), KEY_INTENT_CHECKOUT);
         rvLaundry.setHasFixedSize(true);
         rvLaundry.setLayoutManager(new LinearLayoutManager(getContext()));
         rvLaundry.setAdapter(adapter);

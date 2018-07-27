@@ -11,63 +11,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/img_category"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/pakaian" />
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1">
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_category_name"
+            <ImageView
+                android:id="@+id/img_category"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/pakaian" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_category_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Pakaian"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/tv_category_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Rp. 5000 / KG"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Pakaian"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack" />
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
-            <TextView
-                android:id="@+id/tv_category_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Rp. 5000 / KG"
-                android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    tools:text="3 KG"/>
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Rp. 15.000"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/lyt_status"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/tv_quantity"
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                tools:text="x3"/>
-
-            <TextView
-                android:id="@+id/tv_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Rp. 15.000"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
+                tools:text="DICUCI"
                 android:textSize="16sp"
-                android:layout_marginTop="4dp"/>
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"/>
 
         </LinearLayout>
 
