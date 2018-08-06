@@ -9,14 +9,6 @@ public class OrderLaundryModel implements Parcelable {
     private String orderID;
     private String laundryID;
     private String userID;
-    private String addressPick;
-    private String addressDetailPick;
-    private String addressDeliv;
-    private String addressDetailDeliv;
-    private double latPick;
-    private double lngPick;
-    private double latDeliv;
-    private double lngDeliv;
     private int total;
     private String datePickup;
     private String timePickup;
@@ -25,7 +17,13 @@ public class OrderLaundryModel implements Parcelable {
     private String dateOrder;
     private int status;
     private String laundryID_status;
+    private AddressModel addressPick;
+    private AddressModel addressDelivery;
     private List<CategoryModel> categories;
+
+    public void setAddressPick(AddressModel addressPick) {
+        this.addressPick = addressPick;
+    }
 
     public OrderLaundryModel() {
     }
@@ -52,70 +50,6 @@ public class OrderLaundryModel implements Parcelable {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public String getAddressPick() {
-        return addressPick;
-    }
-
-    public void setAddressPick(String addressPick) {
-        this.addressPick = addressPick;
-    }
-
-    public String getAddressDetailPick() {
-        return addressDetailPick;
-    }
-
-    public void setAddressDetailPick(String addressDetailPick) {
-        this.addressDetailPick = addressDetailPick;
-    }
-
-    public String getAddressDeliv() {
-        return addressDeliv;
-    }
-
-    public void setAddressDeliv(String addressDeliv) {
-        this.addressDeliv = addressDeliv;
-    }
-
-    public String getAddressDetailDeliv() {
-        return addressDetailDeliv;
-    }
-
-    public void setAddressDetailDeliv(String addressDetailDeliv) {
-        this.addressDetailDeliv = addressDetailDeliv;
-    }
-
-    public double getLatPick() {
-        return latPick;
-    }
-
-    public void setLatPick(double latPick) {
-        this.latPick = latPick;
-    }
-
-    public double getLngPick() {
-        return lngPick;
-    }
-
-    public void setLngPick(double lngPick) {
-        this.lngPick = lngPick;
-    }
-
-    public double getLatDeliv() {
-        return latDeliv;
-    }
-
-    public void setLatDeliv(double latDeliv) {
-        this.latDeliv = latDeliv;
-    }
-
-    public double getLngDeliv() {
-        return lngDeliv;
-    }
-
-    public void setLngDeliv(double lngDeliv) {
-        this.lngDeliv = lngDeliv;
     }
 
     public int getTotal() {
@@ -182,6 +116,18 @@ public class OrderLaundryModel implements Parcelable {
         this.laundryID_status = laundryID_status;
     }
 
+    public AddressModel getAddressPick() {
+        return addressPick;
+    }
+
+    public AddressModel getAddressDelivery() {
+        return addressDelivery;
+    }
+
+    public void setAddressDelivery(AddressModel addressDelivery) {
+        this.addressDelivery = addressDelivery;
+    }
+
     public List<CategoryModel> getCategories() {
         return categories;
     }
@@ -200,14 +146,6 @@ public class OrderLaundryModel implements Parcelable {
         dest.writeString(this.orderID);
         dest.writeString(this.laundryID);
         dest.writeString(this.userID);
-        dest.writeString(this.addressPick);
-        dest.writeString(this.addressDetailPick);
-        dest.writeString(this.addressDeliv);
-        dest.writeString(this.addressDetailDeliv);
-        dest.writeDouble(this.latPick);
-        dest.writeDouble(this.lngPick);
-        dest.writeDouble(this.latDeliv);
-        dest.writeDouble(this.lngDeliv);
         dest.writeInt(this.total);
         dest.writeString(this.datePickup);
         dest.writeString(this.timePickup);
@@ -216,6 +154,8 @@ public class OrderLaundryModel implements Parcelable {
         dest.writeString(this.dateOrder);
         dest.writeInt(this.status);
         dest.writeString(this.laundryID_status);
+        dest.writeParcelable(this.addressPick, flags);
+        dest.writeParcelable(this.addressDelivery, flags);
         dest.writeTypedList(this.categories);
     }
 
@@ -223,14 +163,6 @@ public class OrderLaundryModel implements Parcelable {
         this.orderID = in.readString();
         this.laundryID = in.readString();
         this.userID = in.readString();
-        this.addressPick = in.readString();
-        this.addressDetailPick = in.readString();
-        this.addressDeliv = in.readString();
-        this.addressDetailDeliv = in.readString();
-        this.latPick = in.readDouble();
-        this.lngPick = in.readDouble();
-        this.latDeliv = in.readDouble();
-        this.lngDeliv = in.readDouble();
         this.total = in.readInt();
         this.datePickup = in.readString();
         this.timePickup = in.readString();
@@ -239,6 +171,8 @@ public class OrderLaundryModel implements Parcelable {
         this.dateOrder = in.readString();
         this.status = in.readInt();
         this.laundryID_status = in.readString();
+        this.addressPick = in.readParcelable(AddressModel.class.getClassLoader());
+        this.addressDelivery = in.readParcelable(AddressModel.class.getClassLoader());
         this.categories = in.createTypedArrayList(CategoryModel.CREATOR);
     }
 

@@ -122,7 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditProfileActivity.this, MapActivity.class);
-                if (!TextUtils.isEmpty(addressModel.getAlamat())) {
+                if (addressModel != null) {
                     intent.putExtra(KEY_DATA_INTENT_EDIT, true);
                     intent.putExtra(KEY_DATA_INTENT_ADDRESS, addressModel.getAlamat());
                     intent.putExtra(KEY_DATA_INTENT_ADDRESS_DETAIL, addressModel.getAlamatDetail());
@@ -220,11 +220,15 @@ public class EditProfileActivity extends AppCompatActivity {
             userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
             addressModel = userModel.getAddress();
 
+            String addressComplete = "Alamat belum diatur";
+            if (addressModel != null) {
+                String address = addressModel.getAlamat();
+                String addressDetail = addressModel.getAlamatDetail();
+                addressComplete = addressDetail + " | " + address;
+            }
+
             userID = userModel.getUserID();
             String name = userModel.getNama();
-            String address = addressModel.getAlamat();
-            String addressDetail = addressModel.getAlamatDetail();
-            String addressComplete = addressDetail + " | " + address;
             String noTlp = userModel.getNoTlp();
             String email = userModel.getEmail();
             String urlPhoto = userModel.getUrlPhoto();

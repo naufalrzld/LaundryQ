@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 app:spb_animateToCurrentProgressState="true"
                 app:spb_checkStateCompleted="true"
-                app:spb_maxStateNumber="four"
+                app:spb_maxStateNumber="five"
                 app:spb_stateBackgroundColor="@color/colorGray_1"
                 app:spb_stateForegroundColor="@color/colorPrimary"
                 app:spb_stateNumberBackgroundColor="@color/colorGray_2"

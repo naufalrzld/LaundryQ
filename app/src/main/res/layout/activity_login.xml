@@ -37,6 +37,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/colorWhite"
                 android:hint="@string/hint_email_nomor_telepon"
+                android:inputType="textEmailAddress"
                 android:drawableLeft="@drawable/baseline_email_white_36"
                 android:drawableStart="@drawable/baseline_email_white_36"
                 android:drawablePadding="8dp"

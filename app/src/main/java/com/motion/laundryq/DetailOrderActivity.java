@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.motion.laundryq.adapter.MyLaundryAdapter;
+import com.motion.laundryq.model.AddressModel;
 import com.motion.laundryq.model.OrderLaundryModel;
 import com.motion.laundryq.utils.CurrencyConverter;
 
@@ -40,6 +41,7 @@ public class DetailOrderActivity extends AppCompatActivity {
 
     private MyLaundryAdapter adapter;
     private OrderLaundryModel orderLaundryModel;
+    private AddressModel addressPickModel, addressDeliveryModel;
 
     private int status;
 
@@ -55,6 +57,8 @@ public class DetailOrderActivity extends AppCompatActivity {
 
         Intent dataIntent = getIntent();
         orderLaundryModel = dataIntent.getParcelableExtra(KEY_DATA_INTENT_ORDER_MODEL);
+        addressPickModel = orderLaundryModel.getAddressPick();
+        addressDeliveryModel = orderLaundryModel.getAddressDelivery();
 
         status = dataIntent.getIntExtra(KEY_DATA_INTENT_STATUS, 0);
 
@@ -65,8 +69,8 @@ public class DetailOrderActivity extends AppCompatActivity {
     private void initView() {
         final String orderID = orderLaundryModel.getOrderID();
         String dateOrder = orderLaundryModel.getDateOrder();
-        String pickupAddress = orderLaundryModel.getAddressDetailPick() + " | " + orderLaundryModel.getAddressPick();
-        String deliveryAddress = orderLaundryModel.getAddressDetailDeliv() + " | " + orderLaundryModel.getAddressDeliv();
+        String pickupAddress = addressPickModel.getAlamatDetail() + " | " + addressPickModel.getAlamat();
+        String deliveryAddress = addressDeliveryModel.getAlamatDetail() + " | " + addressDeliveryModel.getAlamat();
         String datePick = orderLaundryModel.getDatePickup();
         String dateDeliv = orderLaundryModel.getDateDelivery();
         String timePick = orderLaundryModel.getTimePickup();

@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.motion.laundryq.adapter.ViewPagerAdapter;
 import com.motion.laundryq.fragment.order.CheckoutOrderFragment;
+import com.motion.laundryq.fragment.order.DeliveryLocationFragment;
 import com.motion.laundryq.fragment.order.PickLocationFragment;
 import com.motion.laundryq.fragment.order.TimePickFragment;
 import com.motion.laundryq.fragment.order.TypeLaundryFragment;
@@ -44,7 +45,6 @@ import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_CATEGORIES;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_ID;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_NAME;
-import static com.motion.laundryq.utils.AppConstant.KEY_ORDER_LAUNDRY;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 public class OrderActivity extends AppCompatActivity {
@@ -60,8 +60,6 @@ public class OrderActivity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;
 
     private int viewPagerPosition, currentState;
-    private String addressDelivery, addressDeliv, addressDetailDeliv;
-    private double latDeliv, lngDeliv;
 
     private Intent dataIntent;
 
@@ -93,20 +91,6 @@ public class OrderActivity extends AppCompatActivity {
         final String laundryID = dataIntent.getStringExtra(KEY_DATA_INTENT_LAUNDRY_ID);
         orderLaundryModel.setLaundryID(laundryID);
 
-        SharedPreference sharedPreference = new SharedPreference(this);
-
-        if (sharedPreference.checkIfDataExists(KEY_PROFILE)) {
-            UserModel userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
-            String userID = userModel.getUserID();
-            orderLaundryModel.setUserID(userID);
-            AddressModel addressModel = userModel.getAddress();
-            addressDelivery = addressModel.getAlamatDetail() + " | " + addressModel.getAlamat();
-            addressDeliv = addressModel.getAlamat();
-            addressDetailDeliv = addressModel.getAlamatDetail();
-            latDeliv = addressModel.getLatitude();
-            lngDeliv = addressModel.getLongitude();
-        }
-
         setupViewPager(viewPager);
 
         viewPagerPosition = viewPager.getCurrentItem();
@@ -121,7 +105,7 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 3) {
+                if (position == 4) {
                     btnNext.setText("Order");
                 } else {
                     btnNext.setText("Lanjut");
@@ -139,7 +123,7 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 viewPagerPosition = viewPager.getCurrentItem();
                 currentState = step.getCurrentStateNumber();
-                if (viewPagerPosition != 3) {
+                if (viewPagerPosition != 4) {
                     Fragment fragment = viewPagerAdapter.getItem(viewPagerPosition);
                     if (fragment instanceof TypeLaundryFragment) {
                         TypeLaundryFragment tlf = (TypeLaundryFragment) fragment;
@@ -157,10 +141,23 @@ public class OrderActivity extends AppCompatActivity {
                             double lat = pcf.getLatitude();
                             double lng = pcf.getLongitude();
 
-                            orderLaundryModel.setAddressPick(address);
-                            orderLaundryModel.setAddressDetailPick(addressDetail);
-                            orderLaundryModel.setLatPick(lat);
-                            orderLaundryModel.setLngPick(lng);
+                            AddressModel addressPickModel = new AddressModel(address, addressDetail, lat, lng);
+
+                            orderLaundryModel.setAddressPick(addressPickModel);
+
+                            nextViewPager(viewPagerPosition, currentState);
+                        }
+                    } else if (fragment instanceof DeliveryLocationFragment) {
+                        DeliveryLocationFragment dlf = (DeliveryLocationFragment) fragment;
+                        if (dlf.isInputValid()) {
+                            String address = dlf.getAddress();
+                            String addressDetail = dlf.getAddressDetail();
+                            double lat = dlf.getLatitude();
+                            double lng = dlf.getLongitude();
+
+                            AddressModel addressDeliveryModel = new AddressModel(address, addressDetail, lat, lng);
+
+                            orderLaundryModel.setAddressDelivery(addressDeliveryModel);
 
                             nextViewPager(viewPagerPosition, currentState);
                         }
@@ -180,7 +177,16 @@ public class OrderActivity extends AppCompatActivity {
                         cof.setCategories(orderLaundryModel.getCategories());
                         cof.setTotal(orderLaundryModel.getTotal());
 
-                        String addressPick = orderLaundryModel.getAddressDetailPick() + " | " + orderLaundryModel.getAddressPick();
+                        String addressPick = orderLaundryModel.getAddressPick().getAlamat();
+                        if (!TextUtils.isEmpty(orderLaundryModel.getAddressPick().getAlamatDetail())) {
+                            addressPick = orderLaundryModel.getAddressPick().getAlamatDetail() + " | " + orderLaundryModel.getAddressPick().getAlamat();
+                        }
+
+                        String addressDelivery = orderLaundryModel.getAddressDelivery().getAlamat();
+                        if (!TextUtils.isEmpty(orderLaundryModel.getAddressDelivery().getAlamatDetail())) {
+                            addressDelivery = orderLaundryModel.getAddressDelivery().getAlamatDetail() + " | " + orderLaundryModel.getAddressDelivery().getAlamat();
+                        }
+
                         String dateTimePick = datePickup + ", " + timePickup;
                         String dateTimeDelivery = dateDelivery + ", " + timeDelivery;
 
@@ -199,10 +205,6 @@ public class OrderActivity extends AppCompatActivity {
 
                     orderLaundryModel.setStatus(0);
                     orderLaundryModel.setLaundryID_status(laundryID + "_" + 0);
-                    orderLaundryModel.setAddressDeliv(addressDeliv);
-                    orderLaundryModel.setAddressDetailDeliv(addressDetailDeliv);
-                    orderLaundryModel.setLatDeliv(latDeliv);
-                    orderLaundryModel.setLngDeliv(lngDeliv);
 
                     saveOrder(orderLaundryModel);
                 }
@@ -226,6 +228,7 @@ public class OrderActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(typeLaundryFragment, "Jenis Cucian");
         viewPagerAdapter.addFragment(new PickLocationFragment(), "Lokasi Pengambilan");
+        viewPagerAdapter.addFragment(new DeliveryLocationFragment(), "Lokasi Pengiriman");
         viewPagerAdapter.addFragment(new TimePickFragment(), "Waktu & Tanggal");
         viewPagerAdapter.addFragment(new CheckoutOrderFragment(), "Checkout");
 
@@ -247,6 +250,9 @@ public class OrderActivity extends AppCompatActivity {
             case 3:
                 step.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
                 break;
+            case 4:
+                step.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
+                break;
         }
         setStepTitle((String) viewPagerAdapter.getPageTitle(position + 1));
         viewPager.setCurrentItem(position + 1);
@@ -263,6 +269,9 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4:
                 step.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                break;
+            case 5:
+                step.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
                 break;
         }
         if (position != 0) {
