@@ -12,14 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.motion.laundryq.DetailOrderActivity;
+import com.motion.laundryq.activity.DetailOrderActivity;
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.OrderAdapter;
 import com.motion.laundryq.model.OrderLaundryModel;
@@ -32,8 +31,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRY;
-import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRYID;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_USERID;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ORDER_MODEL;

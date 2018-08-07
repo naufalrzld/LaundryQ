@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.MyLaundryAdapter;
 import com.motion.laundryq.model.AddressModel;
 import com.motion.laundryq.model.OrderLaundryModel;
@@ -36,6 +38,10 @@ public class DetailOrderActivity extends AppCompatActivity {
     TextView tvTimeDelivery;
     @BindView(R.id.rv_laundry)
     RecyclerView rvLaundry;
+    @BindView(R.id.tv_laundry_cost)
+    TextView tvLaundryCost;
+    @BindView(R.id.tv_admin_cost)
+    TextView tvAdminCost;
     @BindView(R.id.tv_total)
     TextView tvTotal;
 
@@ -77,6 +83,8 @@ public class DetailOrderActivity extends AppCompatActivity {
         String timeDeliv = orderLaundryModel.getTimeDelivery();
         String dateTimePick = datePick + ", " + timePick;
         String dateTimeDeliv = dateDeliv + ", " + timeDeliv;
+        String laundryCost = CurrencyConverter.toIDR(orderLaundryModel.getLaundryCost());
+        String adminCost = CurrencyConverter.toIDR(orderLaundryModel.getAdminCost());
         String total = CurrencyConverter.toIDR(orderLaundryModel.getTotal());
 
         tvOrderID.setText(orderID);
@@ -85,6 +93,8 @@ public class DetailOrderActivity extends AppCompatActivity {
         tvAddressDelivery.setText(deliveryAddress);
         tvTimePickup.setText(dateTimePick);
         tvTimeDelivery.setText(dateTimeDeliv);
+        tvLaundryCost.setText(laundryCost);
+        tvAdminCost.setText(adminCost);
         tvTotal.setText(total);
     }
 
@@ -95,5 +105,15 @@ public class DetailOrderActivity extends AppCompatActivity {
         rvLaundry.setAdapter(adapter);
 
         adapter.setCategories(orderLaundryModel.getCategories());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

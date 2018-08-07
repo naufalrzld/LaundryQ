@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,12 +8,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.motion.laundryq.R;
 import com.motion.laundryq.model.UserModel;
 import com.motion.laundryq.utils.SharedPreference;
 

@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.motion.laundryq.R;
 import com.motion.laundryq.model.UserModel;
 
 import butterknife.BindView;

@@ -59,6 +59,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ACTIVE;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORIES;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_CATEGORY_ICON;
@@ -134,7 +135,7 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getLaundry();
+                getLaundry1();
             }
         });
 
@@ -146,7 +147,7 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
                 .build();
         googleApiClient.connect();
 
-        getLaundry();
+        getLaundry1();
 
         return v;
     }
@@ -252,6 +253,87 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         }
     }
 
+    private void getLaundry1() {
+        swipeRefreshLayout.setRefreshing(true);
+        dbLaundryRef.orderByChild(FDB_KEY_ACTIVE).equalTo(true).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<LaundryModel> laundryList = new ArrayList<>();
+                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
+                    final LaundryModel laundryModel = ds.getValue(LaundryModel.class);
+                    assert laundryModel != null;
+                    String laundryID = laundryModel.getLaundryID();
+
+                    dbLaundryServicesRef.child(laundryID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            final List<CategoryModel> categoryList = new ArrayList<>();
+                            final List<TimeOperationalModel> timeList = new ArrayList<>();
+
+                            final Boolean deliveryOrder = dataSnapshot.child(FDB_KEY_DELIVERY_ORDER).getValue(Boolean.class);
+
+                            for (DataSnapshot categories : dataSnapshot.child(FDB_KEY_CATEGORIES).getChildren()) {
+                                final String categoryID = categories.getKey();
+                                final Integer categoryPrice = categories.child(FDB_KEY_CATEGORY_PRICE).getValue(Integer.class);
+                                final String categoryUnit = categories.child(FDB_KEY_CATEGORY_UNIT).getValue(String.class);
+
+                                assert categoryID != null;
+                                dbCategoryRef.child(categoryID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        String categoryName = dataSnapshot.child(FDB_KEY_CATEGORY_NAME).getValue(String.class);
+                                        String icon = dataSnapshot.child(FDB_KEY_CATEGORY_ICON).getValue(String.class);
+
+                                        CategoryModel categoryModel = new CategoryModel();
+                                        categoryModel.setCategoryID(categoryID);
+                                        categoryModel.setCategoryName(categoryName);
+                                        categoryModel.setCategoryUnit(categoryUnit);
+                                        categoryModel.setCategoryPrice(categoryPrice);
+                                        categoryModel.setIcon(icon);
+
+                                        categoryList.add(categoryModel);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.e("error", "onCancelled: " + databaseError.getMessage());
+                                    }
+                                });
+                            }
+
+                            for (DataSnapshot timeOperational : dataSnapshot.child(FDB_KEY_TIME_OPERATIONAL).getChildren()) {
+                                String day = timeOperational.getKey();
+                                String timeOpen = timeOperational.child(FDB_KEY_TIME_OPEN).getValue(String.class);
+                                String timeClose = timeOperational.child(FDB_KEY_TIME_CLOSE).getValue(String.class);
+
+                                timeList.add(new TimeOperationalModel(day, timeOpen, timeClose));
+                            }
+
+                            laundryModel.setDeliveryOder(deliveryOrder);
+                            laundryModel.setCategories(categoryList);
+                            laundryModel.setTimeOperational(timeList);
+
+                            laundryList.add(laundryModel);
+
+                            adapter.setData(laundryList);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("error", "onCancelled: " + databaseError.getMessage());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("error", "onCancelled: " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void getLaundry() {
         swipeRefreshLayout.setRefreshing(true);
         dbLaundryServicesRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -333,24 +415,6 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
             }
         });
     }
-
-    /*private void getLastLocation() {
-        if (checkPermission()) {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-
-                                adapter.setCurrentLocation(new LatLng(latitude, longitude));
-                            }
-                        }
-                    });
-        }
-    }*/
 
     private void checkPermission() {
         if (ActivityCompat.checkSelfPermission(getActivity(),

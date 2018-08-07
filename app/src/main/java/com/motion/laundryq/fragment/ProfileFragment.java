@@ -19,10 +19,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.motion.laundryq.EditProfileActivity;
-import com.motion.laundryq.LoginActivity;
-import com.motion.laundryq.MapActivity;
-import com.motion.laundryq.PhoneNumberActivity;
+import com.motion.laundryq.activity.EditProfileActivity;
+import com.motion.laundryq.activity.LoginActivity;
 import com.motion.laundryq.R;
 import com.motion.laundryq.model.AddressModel;
 import com.motion.laundryq.model.UserModel;
@@ -31,10 +29,6 @@ import com.motion.laundryq.utils.SharedPreference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS;
-import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ADDRESS_DETAIL;
-import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_NO_TLP;
-import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_EDIT;
 import static com.motion.laundryq.utils.AppConstant.KEY_PROFILE;
 
 /**

@@ -4,6 +4,7 @@ public class AppConstant {
     public static final String FDB_KEY_USER = "users";
     public static final String FDB_KEY_LAUNDRY = "laundry";
     public static final String FDB_KEY_LAUNDRYID = "laundryID";
+    public static final String FDB_KEY_ACTIVE = "active";
     public static final String FDB_KEY_LAUNDRY_SERVICES = "laundry_services";
     public static final String FDB_KEY_CATEGORY = "category";
     public static final String FDB_KEY_USER_CUSTOMER = "customer";

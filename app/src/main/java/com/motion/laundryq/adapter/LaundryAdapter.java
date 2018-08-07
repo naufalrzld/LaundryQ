@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
-import com.motion.laundryq.DetailLaundryActivity;
+import com.motion.laundryq.activity.DetailLaundryActivity;
 import com.motion.laundryq.R;
 import com.motion.laundryq.model.LaundryModel;
 

@@ -16,17 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashscreenActivity">
+        <activity android:name=".activity.SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MapActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -38,14 +38,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".PhoneNumberActivity" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".ChangeNameActivity" />
-        <activity android:name=".EditEmailActivity" />
-        <activity android:name=".DetailLaundryActivity" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".DetailOrderActivity"></activity>
+        <activity android:name=".activity.PhoneNumberActivity" />
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.ChangeNameActivity" />
+        <activity android:name=".activity.EditEmailActivity" />
+        <activity android:name=".activity.DetailLaundryActivity" />
+        <activity android:name=".activity.OrderActivity" />
+        <activity android:name=".activity.DetailOrderActivity"></activity>
     </application>
 
 </manifest>

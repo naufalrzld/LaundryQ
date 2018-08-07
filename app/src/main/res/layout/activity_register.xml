@@ -5,21 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
+    android:padding="16dp"
+    tools:context=".activity.RegisterActivity">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_header_register"
-        android:textSize="18sp"
-        android:textColor="@color/colorBlack"
+        android:src="@drawable/register_logo"
         android:layout_gravity="center"
-        android:padding="16dp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorBlack"/>
+        android:layout_marginTop="8dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +24,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="8dp"
-            android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
@@ -45,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name"
-                    android:background="@drawable/et_shape_background_gray"
+                    android:background="@drawable/et_shape_stroke_primary"
                     android:drawableLeft="@drawable/baseline_person_black_24"
                     android:drawableStart="@drawable/baseline_person_black_24"
                     android:drawablePadding="16dp"
@@ -68,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_notlp"
-                    android:background="@drawable/et_shape_background_gray"
+                    android:background="@drawable/et_shape_stroke_primary"
                     android:drawableLeft="@drawable/baseline_local_phone_black_24"
                     android:drawableStart="@drawable/baseline_local_phone_black_24"
                     android:drawablePadding="16dp"
@@ -91,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
-                    android:background="@drawable/et_shape_background_gray"
+                    android:background="@drawable/et_shape_stroke_primary"
                     android:drawableLeft="@drawable/baseline_email_black_24"
                     android:drawableStart="@drawable/baseline_email_black_24"
                     android:drawablePadding="16dp"
@@ -115,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password"
-                    android:background="@drawable/et_shape_background_gray"
+                    android:background="@drawable/et_shape_stroke_primary"
                     android:drawableLeft="@drawable/baseline_lock_black_24"
                     android:drawableStart="@drawable/baseline_lock_black_24"
                     android:drawablePadding="16dp"
@@ -139,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_confirm_password"
-                    android:background="@drawable/et_shape_background_gray"
+                    android:background="@drawable/et_shape_stroke_primary"
                     android:drawableLeft="@drawable/baseline_lock_black_24"
                     android:drawableStart="@drawable/baseline_lock_black_24"
                     android:drawablePadding="16dp"
@@ -157,20 +150,43 @@
                 android:layout_height="42dp"
                 android:text="@string/btn_daftar_txt"
                 android:textSize="16sp"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorWhite"
                 android:textAllCaps="false"
-                android:background="@drawable/btn_transparant_effect"
+                android:background="@drawable/btn_fill_primary_effect"
                 android:layout_marginTop="16dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_have_account"
-                android:textSize="14sp"
-                android:textColor="@color/colorBlack"
-                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_weight="1"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_have_account"
+                    android:textColor="@color/colorPrimary"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp" />
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_login"
@@ -178,10 +194,11 @@
                 android:layout_height="42dp"
                 android:text="@string/btn_login_txt"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
                 android:textAllCaps="false"
-                android:background="@drawable/btn_transparant_effect"
-                android:layout_marginTop="8dp"/>
+                android:background="@drawable/btn_fill_primary_effect"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
 
         </LinearLayout>
 

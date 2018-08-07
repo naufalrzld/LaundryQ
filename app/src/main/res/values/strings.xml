@@ -3,7 +3,7 @@
     <string name="hint_email_nomor_telepon">Email</string>
     <string name="hint_password">Kata sandi</string>
     <string name="txt_lupa_password">Lupa <b>Password?</b></string>
-    <string name="btn_login_txt">Login</string>
+    <string name="btn_login_txt">Masuk</string>
     <string name="tv_no_account">Belum memiliki akun?</string>
     <string name="txt_daftar">Daftar</string>
     <string name="contdesc_logo_laundryq">Logo LaundryQ</string>
@@ -11,7 +11,7 @@
     <string name="hint_notlp">Nomor Telepon</string>
     <string name="hint_email">Email</string>
     <string name="hint_confirm_password">Konfirmasi Kata Sandi</string>
-    <string name="btn_daftar_txt">Registrasi</string>
+    <string name="btn_daftar_txt">Daftar</string>
     <string name="txt_have_account">Sudah punya akun?</string>
     <string name="txt_header_register">Registrasi LaundryQ</string>
     <string name="menu_home_title">Home</string>

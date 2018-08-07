@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.motion.laundryq.R;
 import com.motion.laundryq.fragment.HomeFragment;
 import com.motion.laundryq.fragment.OrderFragment;
 import com.motion.laundryq.fragment.ProfileFragment;

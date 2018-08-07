@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.motion.laundryq.R;
 import com.motion.laundryq.model.UserModel;
 import com.motion.laundryq.utils.SharedPreference;
 

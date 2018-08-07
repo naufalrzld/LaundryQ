@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorGray_1"
-    tools:context=".EditProfileActivity">
+    tools:context=".activity.EditProfileActivity">
 
     <include layout="@layout/custom_toolbar" />
 

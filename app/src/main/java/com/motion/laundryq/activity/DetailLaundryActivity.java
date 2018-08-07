@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.content.Intent;
 import android.os.Parcelable;
@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.TimeOperationalAdapter;
 import com.motion.laundryq.model.LaundryModel;
 import com.motion.laundryq.model.TimeOperationalModel;

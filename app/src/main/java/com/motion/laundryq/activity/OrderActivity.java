@@ -1,4 +1,4 @@
-package com.motion.laundryq;
+package com.motion.laundryq.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kofigyan.stateprogressbar.StateProgressBar;
+import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.ViewPagerAdapter;
 import com.motion.laundryq.fragment.order.CheckoutOrderFragment;
 import com.motion.laundryq.fragment.order.DeliveryLocationFragment;
