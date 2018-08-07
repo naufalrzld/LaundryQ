@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.MyLaundryAdapter;
+import com.motion.laundryq.customviews.NonscrollRecylerview;
 import com.motion.laundryq.model.CategoryModel;
 import com.motion.laundryq.utils.CurrencyConverter;
 
@@ -43,7 +44,11 @@ public class CheckoutOrderFragment extends Fragment {
     @BindView(R.id.tv_time_delivery)
     TextView tvTimeDelivery;
     @BindView(R.id.rv_laundry)
-    RecyclerView rvLaundry;
+    NonscrollRecylerview rvLaundry;
+    @BindView(R.id.tv_laundry_cost)
+    TextView tvLaundryCost;
+    @BindView(R.id.tv_admin_cost)
+    TextView tvAdminCost;
     @BindView(R.id.tv_total)
     TextView tvTotal;
 
@@ -81,6 +86,16 @@ public class CheckoutOrderFragment extends Fragment {
 
     public void setTimeDelivery(String timeDelivery) {
         tvTimeDelivery.setText(timeDelivery);
+    }
+
+    public void setLaundryCost(int laundryCost) {
+        String laundryCostString = CurrencyConverter.toIDR(laundryCost);
+        tvLaundryCost.setText(laundryCostString);
+    }
+
+    public void setAdminCost(int adminCost) {
+        String adminCostString = CurrencyConverter.toIDR(adminCost);
+        tvAdminCost.setText(adminCostString);
     }
 
     public void setTotal(int total) {

@@ -68,22 +68,24 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.ViewHold
             double lng = laundryModel.getLocation().getLongitude();
 
             Location startPoint = new Location("Location A");
-            startPoint.setLatitude(currentLocation.latitude);
-            startPoint.setLongitude(currentLocation.longitude);
-
             Location endPoint = new Location("Location B");
-            endPoint.setLatitude(lat);
-            endPoint.setLongitude(lng);
 
-            DecimalFormat df = new DecimalFormat("###.##");
-            double distance=startPoint.distanceTo(endPoint);
-            double km = distance/1000;
+            String distanceString = "-";
+            if (currentLocation != null) {
+                startPoint.setLatitude(currentLocation.latitude);
+                startPoint.setLongitude(currentLocation.longitude);
+                endPoint.setLatitude(lat);
+                endPoint.setLongitude(lng);
 
-            String distanceString;
-            if (km >= 1) {
-                distanceString = df.format(km) + " KM";
-            } else {
-                distanceString = df.format(distance) + " M";
+                DecimalFormat df = new DecimalFormat("###.##");
+                double distance = startPoint.distanceTo(endPoint);
+                double km = distance/1000;
+
+                if (km >= 1) {
+                    distanceString = df.format(km) + " KM";
+                } else {
+                    distanceString = df.format(distance) + " M";
+                }
             }
 
             holder.tvDistance.setText(distanceString);

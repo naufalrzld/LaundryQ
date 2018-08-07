@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.motion.laundryq.adapter.ViewPagerAdapter;
 import com.motion.laundryq.fragment.order.CheckoutOrderFragment;
@@ -41,6 +45,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ADMIN_COST;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_COST;
 import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_CATEGORIES;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_LAUNDRY_ID;
@@ -58,6 +64,7 @@ public class OrderActivity extends AppCompatActivity {
     Button btnNext;
 
     private ViewPagerAdapter viewPagerAdapter;
+    private OrderLaundryModel orderLaundryModel;
 
     private int viewPagerPosition, currentState;
 
@@ -75,15 +82,21 @@ public class OrderActivity extends AppCompatActivity {
         orderLoading.setMessage("Memesan . . .");
         orderLoading.setCancelable(false);
 
+        SharedPreference sharedPreference = new SharedPreference(this);
+        UserModel userModel = sharedPreference.getObjectData(KEY_PROFILE, UserModel.class);
+        final String userID = userModel.getUserID();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final OrderLaundryModel orderLaundryModel = new OrderLaundryModel();
+        orderLaundryModel = new OrderLaundryModel();
 
         Locale locale = new Locale("in", "ID");
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss", locale);
         Calendar calendar = Calendar.getInstance();
         final String orderID = sdf.format(calendar.getTime());
+
+        setAdminCost();
 
         orderLaundryModel.setOrderID(orderID);
 
@@ -128,7 +141,7 @@ public class OrderActivity extends AppCompatActivity {
                     if (fragment instanceof TypeLaundryFragment) {
                         TypeLaundryFragment tlf = (TypeLaundryFragment) fragment;
 
-                        orderLaundryModel.setTotal(tlf.getTotal());
+                        orderLaundryModel.setLaundryCost(tlf.getTotal());
                         orderLaundryModel.setCategories(tlf.getCategories());
 
                         nextViewPager(viewPagerPosition, currentState);
@@ -175,7 +188,10 @@ public class OrderActivity extends AppCompatActivity {
 
                         CheckoutOrderFragment cof = (CheckoutOrderFragment) viewPagerAdapter.getItem(viewPagerPosition+1);
                         cof.setCategories(orderLaundryModel.getCategories());
-                        cof.setTotal(orderLaundryModel.getTotal());
+                        cof.setLaundryCost(orderLaundryModel.getLaundryCost());
+                        cof.setAdminCost(orderLaundryModel.getAdminCost());
+
+                        cof.setTotal(orderLaundryModel.getLaundryCost() + orderLaundryModel.getAdminCost());
 
                         String addressPick = orderLaundryModel.getAddressPick().getAlamat();
                         if (!TextUtils.isEmpty(orderLaundryModel.getAddressPick().getAlamatDetail())) {
@@ -203,8 +219,10 @@ public class OrderActivity extends AppCompatActivity {
                 } else {
                     step.setAllStatesCompleted(true);
 
+                    orderLaundryModel.setUserID(userID);
                     orderLaundryModel.setStatus(0);
                     orderLaundryModel.setLaundryID_status(laundryID + "_" + 0);
+                    orderLaundryModel.setTotal(orderLaundryModel.getLaundryCost() + orderLaundryModel.getAdminCost());
 
                     saveOrder(orderLaundryModel);
                 }
@@ -309,5 +327,21 @@ public class OrderActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setAdminCost() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(FDB_KEY_COST);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer admin_cost = dataSnapshot.child(FDB_KEY_ADMIN_COST).getValue(Integer.class);
+                orderLaundryModel.setAdminCost(admin_cost);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("error", "onCancelled: " + databaseError.getMessage());
+            }
+        });
     }
 }

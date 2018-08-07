@@ -9,6 +9,8 @@ public class OrderLaundryModel implements Parcelable {
     private String orderID;
     private String laundryID;
     private String userID;
+    private int laundryCost;
+    private int adminCost;
     private int total;
     private String datePickup;
     private String timePickup;
@@ -20,10 +22,6 @@ public class OrderLaundryModel implements Parcelable {
     private AddressModel addressPick;
     private AddressModel addressDelivery;
     private List<CategoryModel> categories;
-
-    public void setAddressPick(AddressModel addressPick) {
-        this.addressPick = addressPick;
-    }
 
     public OrderLaundryModel() {
     }
@@ -50,6 +48,22 @@ public class OrderLaundryModel implements Parcelable {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public int getLaundryCost() {
+        return laundryCost;
+    }
+
+    public void setLaundryCost(int laundryCost) {
+        this.laundryCost = laundryCost;
+    }
+
+    public int getAdminCost() {
+        return adminCost;
+    }
+
+    public void setAdminCost(Integer adminCost) {
+        this.adminCost = adminCost;
     }
 
     public int getTotal() {
@@ -120,6 +134,10 @@ public class OrderLaundryModel implements Parcelable {
         return addressPick;
     }
 
+    public void setAddressPick(AddressModel addressPick) {
+        this.addressPick = addressPick;
+    }
+
     public AddressModel getAddressDelivery() {
         return addressDelivery;
     }
@@ -146,6 +164,8 @@ public class OrderLaundryModel implements Parcelable {
         dest.writeString(this.orderID);
         dest.writeString(this.laundryID);
         dest.writeString(this.userID);
+        dest.writeInt(this.laundryCost);
+        dest.writeInt(this.adminCost);
         dest.writeInt(this.total);
         dest.writeString(this.datePickup);
         dest.writeString(this.timePickup);
@@ -163,6 +183,8 @@ public class OrderLaundryModel implements Parcelable {
         this.orderID = in.readString();
         this.laundryID = in.readString();
         this.userID = in.readString();
+        this.laundryCost = in.readInt();
+        this.adminCost = in.readInt();
         this.total = in.readInt();
         this.datePickup = in.readString();
         this.timePickup = in.readString();

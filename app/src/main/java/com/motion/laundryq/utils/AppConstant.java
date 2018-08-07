@@ -23,6 +23,8 @@ public class AppConstant {
     public static final String FDB_KEY_TIME_OPEN = "time_open";
     public static final String FDB_KEY_TIME_CLOSE = "time_close";
     public static final String FDB_KEY_ORDER = "order";
+    public static final String FDB_KEY_COST = "cost";
+    public static final String FDB_KEY_ADMIN_COST = "admin_cost";
 
     public static final String KEY_PROFILE = "profile";
     public static final String KEY_ORDER_LAUNDRY = "order_laundry";
