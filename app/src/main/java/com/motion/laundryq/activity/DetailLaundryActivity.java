@@ -1,7 +1,9 @@
 package com.motion.laundryq.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,8 @@ import com.motion.laundryq.model.LaundryModel;
 import com.motion.laundryq.model.TimeOperationalModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +64,7 @@ public class DetailLaundryActivity extends AppCompatActivity {
         Intent dataIntent = getIntent();
         final LaundryModel laundryModel = dataIntent.getParcelableExtra(KEY_DATA_INTENT_LAUNDRY_MODEL);
 
-        String laundryName = laundryModel.getLaundryName();
+        final String laundryName = laundryModel.getLaundryName();
         String urlPhoto = laundryModel.getUrlPhoto();
         String address = laundryModel.getLocation().getAddress();
         String addressDetail = laundryModel.getLocation().getAddressDetail();
@@ -79,7 +83,7 @@ public class DetailLaundryActivity extends AppCompatActivity {
             idLine = "-";
         }
 
-        List<TimeOperationalModel> listTime = laundryModel.getTimeOperational();
+        List<TimeOperationalModel> listTime = sortTimeOperational(laundryModel.getTimeOperational());
 
         getSupportActionBar().setTitle(laundryName);
         Glide.with(this).load(urlPhoto).into(imgLaundry);
@@ -95,16 +99,33 @@ public class DetailLaundryActivity extends AppCompatActivity {
         lytBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DetailLaundryActivity.this, OrderActivity.class);
-                intent.putExtra(KEY_DATA_INTENT_LAUNDRY_ID, laundryModel.getLaundryID());
-                intent.putExtra(KEY_DATA_INTENT_LAUNDRY_NAME, laundryModel.getLaundryName());
-                intent.putParcelableArrayListExtra(KEY_DATA_INTENT_CATEGORIES, (ArrayList<? extends Parcelable>) laundryModel.getCategories());
-                startActivity(intent);
+                if (laundryModel.isOpen()) {
+                    Intent intent = new Intent(DetailLaundryActivity.this, OrderActivity.class);
+                    intent.putExtra(KEY_DATA_INTENT_LAUNDRY_ID, laundryModel.getLaundryID());
+                    intent.putExtra(KEY_DATA_INTENT_LAUNDRY_NAME, laundryModel.getLaundryName());
+                    intent.putParcelableArrayListExtra(KEY_DATA_INTENT_CATEGORIES, (ArrayList<? extends Parcelable>) laundryModel.getCategories());
+                    startActivity(intent);
+                } else {
+                    String msg = laundryName + " sedang tutup, silahkan pilih Laundry lain";
+                    showMessageDialog(msg);
+                }
             }
         });
     }
 
-    public void justifyListViewHeightBasedOnChildren(ListView listView) {
+    private void showMessageDialog(String msg) {
+        new AlertDialog.Builder(this)
+                .setTitle("Informasi")
+                .setMessage(msg)
+                .setPositiveButton("Tutup", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+    }
+
+    private void justifyListViewHeightBasedOnChildren(ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
 
@@ -132,5 +153,15 @@ public class DetailLaundryActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private List<TimeOperationalModel> sortTimeOperational(List<TimeOperationalModel> list) {
+        Collections.sort(list, new Comparator<TimeOperationalModel>() {
+            @Override public int compare(TimeOperationalModel p1, TimeOperationalModel p2) {
+                return p1.getDayNum() - p2.getDayNum();
+            }
+        });
+
+        return list;
     }
 }

@@ -258,72 +258,72 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         dbLaundryRef.orderByChild(FDB_KEY_ACTIVE).equalTo(true).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<LaundryModel> laundryList = new ArrayList<>();
-                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
-                    final LaundryModel laundryModel = ds.getValue(LaundryModel.class);
-                    assert laundryModel != null;
-                    String laundryID = laundryModel.getLaundryID();
+                if (dataSnapshot.exists()) {
+                    final List<LaundryModel> laundryList = new ArrayList<>();
+                    for (final DataSnapshot ds : dataSnapshot.getChildren()) {
+                        final LaundryModel laundryModel = ds.getValue(LaundryModel.class);
+                        assert laundryModel != null;
+                        String laundryID = laundryModel.getLaundryID();
 
-                    dbLaundryServicesRef.child(laundryID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            swipeRefreshLayout.setRefreshing(false);
-                            final List<CategoryModel> categoryList = new ArrayList<>();
-                            final List<TimeOperationalModel> timeList = new ArrayList<>();
+                        dbLaundryServicesRef.child(laundryID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                swipeRefreshLayout.setRefreshing(false);
+                                final List<CategoryModel> categoryList = new ArrayList<>();
+                                final List<TimeOperationalModel> timeList = new ArrayList<>();
 
-                            final Boolean deliveryOrder = dataSnapshot.child(FDB_KEY_DELIVERY_ORDER).getValue(Boolean.class);
+                                final Boolean deliveryOrder = dataSnapshot.child(FDB_KEY_DELIVERY_ORDER).getValue(Boolean.class);
 
-                            for (DataSnapshot categories : dataSnapshot.child(FDB_KEY_CATEGORIES).getChildren()) {
-                                final String categoryID = categories.getKey();
-                                final Integer categoryPrice = categories.child(FDB_KEY_CATEGORY_PRICE).getValue(Integer.class);
-                                final String categoryUnit = categories.child(FDB_KEY_CATEGORY_UNIT).getValue(String.class);
+                                for (DataSnapshot categories : dataSnapshot.child(FDB_KEY_CATEGORIES).getChildren()) {
+                                    final String categoryID = categories.getKey();
+                                    final CategoryModel categoryModel = categories.getValue(CategoryModel.class);
+                                    assert categoryModel != null;
+                                    categoryModel.setCategoryID(categoryID);
 
-                                assert categoryID != null;
-                                dbCategoryRef.child(categoryID).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String categoryName = dataSnapshot.child(FDB_KEY_CATEGORY_NAME).getValue(String.class);
-                                        String icon = dataSnapshot.child(FDB_KEY_CATEGORY_ICON).getValue(String.class);
+                                    assert categoryID != null;
+                                    dbCategoryRef.child(categoryID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            String icon = dataSnapshot.child(FDB_KEY_CATEGORY_ICON).getValue(String.class);
 
-                                        CategoryModel categoryModel = new CategoryModel();
-                                        categoryModel.setCategoryID(categoryID);
-                                        categoryModel.setCategoryName(categoryName);
-                                        categoryModel.setCategoryUnit(categoryUnit);
-                                        categoryModel.setCategoryPrice(categoryPrice);
-                                        categoryModel.setIcon(icon);
+                                            categoryModel.setIcon(icon);
 
-                                        categoryList.add(categoryModel);
-                                    }
+                                            categoryList.add(categoryModel);
+                                        }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        Log.e("error", "onCancelled: " + databaseError.getMessage());
-                                    }
-                                });
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            Log.e("error", "onCancelled: " + databaseError.getMessage());
+                                        }
+                                    });
+                                }
+
+                                for (DataSnapshot timeOperational : dataSnapshot.child(FDB_KEY_TIME_OPERATIONAL).getChildren()) {
+                                    String day = timeOperational.getKey();
+                                    TimeOperationalModel tom = timeOperational.getValue(TimeOperationalModel.class);
+                                    assert tom != null;
+                                    tom.setDay(day);
+
+                                    timeList.add(tom);
+                                }
+
+                                laundryModel.setDeliveryOder(deliveryOrder);
+                                laundryModel.setCategories(categoryList);
+                                laundryModel.setTimeOperational(timeList);
+
+                                laundryList.add(laundryModel);
+
+                                adapter.setData(laundryList);
                             }
 
-                            for (DataSnapshot timeOperational : dataSnapshot.child(FDB_KEY_TIME_OPERATIONAL).getChildren()) {
-                                String day = timeOperational.getKey();
-                                String timeOpen = timeOperational.child(FDB_KEY_TIME_OPEN).getValue(String.class);
-                                String timeClose = timeOperational.child(FDB_KEY_TIME_CLOSE).getValue(String.class);
-
-                                timeList.add(new TimeOperationalModel(day, timeOpen, timeClose));
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e("error", "onCancelled: " + databaseError.getMessage());
                             }
-
-                            laundryModel.setDeliveryOder(deliveryOrder);
-                            laundryModel.setCategories(categoryList);
-                            laundryModel.setTimeOperational(timeList);
-
-                            laundryList.add(laundryModel);
-
-                            adapter.setData(laundryList);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e("error", "onCancelled: " + databaseError.getMessage());
-                        }
-                    });
+                        });
+                    }
+                } else {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 

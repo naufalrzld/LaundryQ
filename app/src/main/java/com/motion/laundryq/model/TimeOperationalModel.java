@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class TimeOperationalModel implements Parcelable {
     private String day;
+    private int dayNum;
     private String timeOpen;
     private String timeClose;
 
@@ -23,6 +24,14 @@ public class TimeOperationalModel implements Parcelable {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public int getDayNum() {
+        return dayNum;
+    }
+
+    public void setDayNum(int dayNum) {
+        this.dayNum = dayNum;
     }
 
     public String getTimeOpen() {
@@ -49,17 +58,19 @@ public class TimeOperationalModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.day);
+        dest.writeInt(this.dayNum);
         dest.writeString(this.timeOpen);
         dest.writeString(this.timeClose);
     }
 
     protected TimeOperationalModel(Parcel in) {
         this.day = in.readString();
+        this.dayNum = in.readInt();
         this.timeOpen = in.readString();
         this.timeClose = in.readString();
     }
 
-    public static final Parcelable.Creator<TimeOperationalModel> CREATOR = new Parcelable.Creator<TimeOperationalModel>() {
+    public static final Creator<TimeOperationalModel> CREATOR = new Creator<TimeOperationalModel>() {
         @Override
         public TimeOperationalModel createFromParcel(Parcel source) {
             return new TimeOperationalModel(source);

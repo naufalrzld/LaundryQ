@@ -21,8 +21,8 @@ public class AppConstant {
     public static final String FDB_KEY_CATEGORY_UNIT = "categoryUnit";
     public static final String FDB_KEY_CATEGORY_PRICE = "categoryPrice";
     public static final String FDB_KEY_TIME_OPERATIONAL = "time_operational";
-    public static final String FDB_KEY_TIME_OPEN = "time_open";
-    public static final String FDB_KEY_TIME_CLOSE = "time_close";
+    public static final String FDB_KEY_TIME_OPEN = "timeOpen";
+    public static final String FDB_KEY_TIME_CLOSE = "timeClose";
     public static final String FDB_KEY_ORDER = "order";
     public static final String FDB_KEY_COST = "cost";
     public static final String FDB_KEY_ADMIN_COST = "admin_cost";
