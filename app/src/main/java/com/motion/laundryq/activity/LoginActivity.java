@@ -1,10 +1,12 @@
 package com.motion.laundryq.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -51,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
 
     private FirebaseAuth auth;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     private SharedPreference sharedPreference;
@@ -68,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         loginLoading.setCancelable(false);
 
         auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference(FDB_KEY_USER).child(FDB_KEY_USER_CUSTOMER);
 
         sharedPreference = new SharedPreference(this);
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString();
 
                 if (isInputValid(email, password)) {
-                    loginUser(email, password);
+                    checkUser(email, password);
                 }
             }
         });
@@ -97,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         tilEmail.setErrorEnabled(false);
         tilPassword.setErrorEnabled(false);
 
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             if (TextUtils.isEmpty(email)) {
                 tilEmail.setErrorEnabled(true);
@@ -110,6 +113,13 @@ public class LoginActivity extends AppCompatActivity {
 
             return false;
         } else {
+            if (!email.matches(emailPattern)) {
+                tilEmail.setErrorEnabled(true);
+                tilEmail.setError("Email tidak valid!");
+
+                return false;
+            }
+
             if (password.length() < 6) {
                 tilPassword.setErrorEnabled(true);
                 tilPassword.setError("Password minimal 6 karakter");
@@ -121,15 +131,48 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loginUser(final String email, final String password) {
+    private void checkUser(final String email, final String password) {
         loginLoading.show();
+        String split[] = email.split("@");
+        final String userID = split[0];
+        databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    loginUser(userID, email, password);
+                } else {
+                    loginLoading.dismiss();
+                    new AlertDialog.Builder(LoginActivity.this)
+                            .setTitle("Informasi")
+                            .setMessage("Akun belum terdaftar, silahkan registarsi terlebih dahulu.")
+                            .setPositiveButton("Registrasi", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                                }
+                            })
+                            .setNegativeButton("Tutup", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("error", "onCancelled: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    private void loginUser(final String userID, final String email, final String password) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String split[] = email.split("@");
-                            String userID = split[0];
                             getDataUser(userID, password);
                         } else {
                             loginLoading.dismiss();

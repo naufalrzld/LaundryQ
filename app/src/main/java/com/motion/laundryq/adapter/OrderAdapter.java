@@ -79,11 +79,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         } else if (status == 2) {
             statusMsg = "Order ditolak";
         } else if (status == 3) {
-            statusMsg = "Cucian selesai";
+            statusMsg = "Sedang Dicuci";
         } else if (status == 4) {
-            statusMsg = "Sedang diantar";
+            statusMsg = "Cucian Selesai";
         } else if (status == 5) {
-            statusMsg = "Sudah diterima";
+            statusMsg = "Sedang Dikirim";
+        } else if (status == 6) {
+            statusMsg = "Sudah Diterima";
         }
 
         holder.tvOrderID.setText(orderID);

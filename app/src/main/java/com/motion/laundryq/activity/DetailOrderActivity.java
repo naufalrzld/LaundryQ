@@ -1,23 +1,37 @@
 package com.motion.laundryq.activity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.motion.laundryq.R;
 import com.motion.laundryq.adapter.MyLaundryAdapter;
 import com.motion.laundryq.model.AddressModel;
 import com.motion.laundryq.model.OrderLaundryModel;
 import com.motion.laundryq.utils.CurrencyConverter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_LAUNDRY_ID_STATUS;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_ORDER;
+import static com.motion.laundryq.utils.AppConstant.FDB_KEY_STATUS_ORDER;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_ORDER_MODEL;
 import static com.motion.laundryq.utils.AppConstant.KEY_DATA_INTENT_STATUS;
 
@@ -44,6 +58,8 @@ public class DetailOrderActivity extends AppCompatActivity {
     TextView tvAdminCost;
     @BindView(R.id.tv_total)
     TextView tvTotal;
+    @BindView(R.id.btnTerima)
+    Button btnAccept;
 
     private MyLaundryAdapter adapter;
     private OrderLaundryModel orderLaundryModel;
@@ -74,6 +90,7 @@ public class DetailOrderActivity extends AppCompatActivity {
 
     private void initView() {
         final String orderID = orderLaundryModel.getOrderID();
+        final String laundryID = orderLaundryModel.getLaundryID();
         String dateOrder = orderLaundryModel.getDateOrder();
         String pickupAddress = addressPickModel.getAlamatDetail() + " | " + addressPickModel.getAlamat();
         String deliveryAddress = addressDeliveryModel.getAlamatDetail() + " | " + addressDeliveryModel.getAlamat();
@@ -86,6 +103,7 @@ public class DetailOrderActivity extends AppCompatActivity {
         String laundryCost = CurrencyConverter.toIDR(orderLaundryModel.getLaundryCost());
         String adminCost = CurrencyConverter.toIDR(orderLaundryModel.getAdminCost());
         String total = CurrencyConverter.toIDR(orderLaundryModel.getTotal());
+        int status = orderLaundryModel.getStatus();
 
         tvOrderID.setText(orderID);
         tvDateOrder.setText(dateOrder);
@@ -96,6 +114,17 @@ public class DetailOrderActivity extends AppCompatActivity {
         tvLaundryCost.setText(laundryCost);
         tvAdminCost.setText(adminCost);
         tvTotal.setText(total);
+
+        if (status == 5) {
+            btnAccept.setVisibility(View.VISIBLE);
+        }
+
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateStatus(orderID, laundryID);
+            }
+        });
     }
 
     private void setAdapter(int status) {
@@ -105,6 +134,22 @@ public class DetailOrderActivity extends AppCompatActivity {
         rvLaundry.setAdapter(adapter);
 
         adapter.setCategories(orderLaundryModel.getCategories());
+    }
+
+    private void updateStatus(String orderID, String laundryID) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(FDB_KEY_STATUS_ORDER, 6);
+        map.put(FDB_KEY_LAUNDRY_ID_STATUS, laundryID + "_" + 6);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(FDB_KEY_ORDER);
+        databaseReference.child(orderID).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                String statusMsg = "Cucian diterima";
+                Toast.makeText(getApplicationContext(), statusMsg, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     @Override

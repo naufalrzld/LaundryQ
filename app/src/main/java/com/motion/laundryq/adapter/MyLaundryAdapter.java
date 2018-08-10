@@ -70,9 +70,11 @@ public class MyLaundryAdapter extends RecyclerView.Adapter<MyLaundryAdapter.View
             statusMsg = "Selesai";
         }
 
+        String price = CurrencyConverter.toIDR(categoryPrice) + "/" + categoryUnit;
+
         Glide.with(context).load(icon).into(holder.imgCategory);
         holder.tvCategoryName.setText(categoryName);
-        holder.tvCategoryPrice.setText(CurrencyConverter.toIDR(categoryPrice));
+        holder.tvCategoryPrice.setText(price);
         holder.tvQuantity.setText(quantityString);
         holder.tvTotal.setText(CurrencyConverter.toIDR(total));
 

@@ -26,6 +26,8 @@ public class AppConstant {
     public static final String FDB_KEY_ORDER = "order";
     public static final String FDB_KEY_COST = "cost";
     public static final String FDB_KEY_ADMIN_COST = "admin_cost";
+    public static final String FDB_KEY_STATUS_ORDER = "status";
+    public static final String FDB_KEY_LAUNDRY_ID_STATUS = "laundryID_status";
 
     public static final String KEY_PROFILE = "profile";
     public static final String KEY_ORDER_LAUNDRY = "order_laundry";

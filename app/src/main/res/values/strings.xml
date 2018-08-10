@@ -92,4 +92,5 @@
     <string name="txt_choose_location">Pilih Lokasi</string>
     <string name="txt_admin_cost">Biaya admin</string>
     <string name="txt_laundry_cost">Biaya cucian</string>
+    <string name="btn_title_accept">Terima</string>
 </resources>
